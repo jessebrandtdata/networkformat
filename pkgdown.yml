@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,7 @@ articles:
   networkformat: networkformat.html
   articles/visual-qa: visual-qa.html
   visualization: visualization.html
-last_built: 2026-04-01T03:01Z
+last_built: 2026-05-10T19:45Z
 urls:
   reference: https://jesseabrandt.github.io/networkformat/reference
   article: https://jesseabrandt.github.io/networkformat/articles

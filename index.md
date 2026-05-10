@@ -11,6 +11,7 @@ Full documentation at <https://jesseabrandt.github.io/networkformat/>.
 ## Installation
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("jesseabrandt/networkformat")
 ```
@@ -18,6 +19,7 @@ devtools::install_github("jesseabrandt/networkformat")
 ## Quick start
 
 ``` r
+
 library(networkformat)
 
 # Vectors --- sequential chain of edges
@@ -44,15 +46,15 @@ as.igraph(tr)
 
 ## Supported inputs
 
-| Input                              | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md) |
-|------------------------------------|:----------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| **vector** (character, numeric, …) |                            sequential edges `i -> i+1`                             |                            unique values with frequency                            |                                                                                         —                                                                                         |
-| **data.frame**                     |                                 column-pair edges                                  |                            reorder with `id_col` first                             |                                                                                         —                                                                                         |
-| **randomForest**                   |                                parent-child splits                                 |                            node attributes with labels                             |                                                                            single or multi-tree graph                                                                             |
-| **tree**                           |                                parent-child splits                                 |                            node attributes with labels                             |                                                                                  full tree graph                                                                                  |
-| **rpart**                          |                                parent-child splits                                 |                            node attributes with labels                             |                                                                                  full tree graph                                                                                  |
-| **xgb.Booster** (xgboost)          |                                parent-child splits                                 |                            node attributes with labels                             |                                                                            single or multi-tree graph                                                                             |
-| **gbm**                            |                                parent-child splits                                 |                            node attributes with labels                             |                                                                            single or multi-tree graph                                                                             |
+| Input | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md) |
+|----|:--:|:--:|:--:|
+| **vector** (character, numeric, …) | sequential edges `i -> i+1` | unique values with frequency | — |
+| **data.frame** | column-pair edges | reorder with `id_col` first | — |
+| **randomForest** | parent-child splits | node attributes with labels | single or multi-tree graph |
+| **tree** | parent-child splits | node attributes with labels | full tree graph |
+| **rpart** | parent-child splits | node attributes with labels | full tree graph |
+| **xgb.Booster** (xgboost) | parent-child splits | node attributes with labels | single or multi-tree graph |
+| **gbm** | parent-child splits | node attributes with labels | single or multi-tree graph |
 
 ## Vectors
 
@@ -60,6 +62,7 @@ Any atomic vector becomes a sequential edgelist: element `i` connects to
 element `i + 1`.
 
 ``` r
+
 edgelist(c("intro", "basics", "advanced", "project"))
 #>       from       to
 #> 1    intro   basics
@@ -87,6 +90,7 @@ Specify which columns are source/target nodes. All other columns are
 carried as edge attributes by default.
 
 ``` r
+
 # Basic edgelist from two columns
 edgelist(courses, source_cols = course, target_cols = prereq)
 
@@ -122,6 +126,7 @@ Key parameters:
 ### randomForest
 
 ``` r
+
 library(randomForest)
 
 rf <- randomForest(Species ~ ., data = iris, ntree = 5)
@@ -144,6 +149,7 @@ head(nl)
 ### tree
 
 ``` r
+
 library(tree)
 
 tr <- tree(Species ~ Sepal.Length + Sepal.Width, data = iris)
@@ -165,6 +171,7 @@ Skip the edgelist/nodelist step and go straight to an igraph or
 tbl_graph:
 
 ``` r
+
 library(tree)
 
 tr <- tree(Species ~ ., data = iris)
@@ -184,6 +191,7 @@ g_rf <- as.igraph(rf, treenum = 1)
 ## Visualization
 
 ``` r
+
 library(ggraph)
 library(tidygraph)
 library(tree)

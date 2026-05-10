@@ -1,6 +1,7 @@
 # Visualizing models as networks
 
 ``` r
+
 library(networkformat)
 library(ggraph)
 library(tidygraph)
@@ -26,6 +27,7 @@ objects — see
 ## Decision tree
 
 ``` r
+
 tr <- tree::tree(Species ~ Sepal.Length + Sepal.Width, data = iris)
 tg <- as_tbl_graph(tr)
 ```
@@ -35,12 +37,14 @@ labels, split variables, leaf predictions, observation counts, and
 parsed edge thresholds.
 
 ``` r
+
 cat("Nodes:", igraph::vcount(tg), " Edges:", igraph::ecount(tg),
     " Depth:", max(igraph::distances(tg, mode = "out")[1, ]), "\n")
 #> Nodes: 15  Edges: 14  Depth: 4
 ```
 
 ``` r
+
 # Add a fill column: split variable for internal nodes, predicted class for leaves
 tg <- tg %>%
   mutate(fill_var = ifelse(is_leaf, yval, var))
@@ -83,6 +87,7 @@ disconnected components — one per tree. Each node carries a `treenum`
 attribute so you can distinguish them.
 
 ``` r
+
 rf <- randomForest::randomForest(Species ~ ., data = iris, ntree = 3, maxnodes = 5)
 
 # All 3 trees in one graph
@@ -90,12 +95,14 @@ tg_rf <- as_tbl_graph(rf)
 ```
 
 ``` r
+
 cat("Nodes:", igraph::vcount(tg_rf), " Edges:", igraph::ecount(tg_rf),
     " Components:", igraph::count_components(tg_rf), "\n")
 #> Nodes: 27  Edges: 24  Components: 3
 ```
 
 ``` r
+
 # Map integer prediction indices to class names
 tg_rf <- tg_rf %>%
   mutate(
@@ -145,6 +152,7 @@ by split variable; leaf nodes are colored by predicted class.
 For a closer look at one tree:
 
 ``` r
+
 tg1 <- as_tbl_graph(rf, treenum = 1) %>%
   mutate(
     pred_class = rf$classes[prediction],
@@ -182,6 +190,7 @@ contains 13 courses across 4 departments, with prerequisite and
 crosslist relationships.
 
 ``` r
+
 library(igraph)
 
 # Prereqs as source so arrows naturally point prereq -> course;

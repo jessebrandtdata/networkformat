@@ -17,6 +17,7 @@ Vectors produce sequential edges: element *i* connects to element *i +
 ### edgelist
 
 ``` r
+
 edgelist(c("A", "B", "C", "D"))
 #>   from to
 #> 1    A  B
@@ -27,6 +28,7 @@ edgelist(c("A", "B", "C", "D"))
 Numeric vectors work the same way:
 
 ``` r
+
 edgelist(c(1, 2, 3))
 #>   from to
 #> 1    1  2
@@ -36,6 +38,7 @@ edgelist(c(1, 2, 3))
 Duplicate edges can be collapsed with `weights = TRUE`:
 
 ``` r
+
 edgelist(c("A", "B", "A", "B", "C"), weights = TRUE)
 #>   from to weight
 #> 1    A  B      2
@@ -48,6 +51,7 @@ edgelist(c("A", "B", "A", "B", "C"), weights = TRUE)
 Returns unique values with frequency counts:
 
 ``` r
+
 nodelist(c("A", "B", "A", "B", "C"))
 #>   name n
 #> 1    A 2
@@ -65,6 +69,7 @@ with a path-style ID.
 ### edgelist
 
 ``` r
+
 edgelist(list(a = list(b = 1, c = 2), d = 3))
 #>     from       to depth
 #> 1   root   root/a     1
@@ -76,6 +81,7 @@ edgelist(list(a = list(b = 1, c = 2), d = 3))
 Unnamed elements use positional indices:
 
 ``` r
+
 edgelist(list(1, 2, list(3, 4)))
 #>         from               to depth
 #> 1       root       root/[[1]]     1
@@ -88,6 +94,7 @@ edgelist(list(1, 2, list(3, 4)))
 Limit depth (root = 0, children = 1, …):
 
 ``` r
+
 edgelist(list(a = list(b = list(c = 1))), max_depth = 2)
 #>     from       to depth
 #> 1   root   root/a     1
@@ -97,6 +104,7 @@ edgelist(list(a = list(b = list(c = 1))), max_depth = 2)
 ### nodelist
 
 ``` r
+
 nodelist(list(a = list(b = 1, c = 2), d = 3))
 #>       name depth    type n_children label
 #> 1     root     0    list          2  root
@@ -111,6 +119,7 @@ nodelist(list(a = list(b = 1, c = 2), d = 3))
 S3 objects without a dedicated method are decomposed as plain lists:
 
 ``` r
+
 fit <- lm(Sepal.Length ~ Sepal.Width, data = iris)
 edgelist(fit)
 #> No edgelist method for class 'lm'; treating as a plain list.
@@ -127,6 +136,7 @@ Data frame methods use tidyselect to specify which columns form edges.
 **Basic usage** with the bundled `courses` dataset:
 
 ``` r
+
 data(courses)
 edgelist(courses, source_cols = prereq, target_cols = course)
 #>       from      to from_col to_col dept prereq2 crosslist credits level
@@ -147,6 +157,7 @@ edgelist(courses, source_cols = prereq, target_cols = course)
 edges, identified by `from_col`:
 
 ``` r
+
 edgelist(courses, source_cols = c(prereq, prereq2), target_cols = course)
 #>       from      to from_col to_col dept crosslist credits level
 #> 1  math101 stat101   prereq course STAT      <NA>       3   100
@@ -169,6 +180,7 @@ edgelist(courses, source_cols = c(prereq, prereq2), target_cols = course)
 **Keeping NAs** (default is `na.rm = TRUE`):
 
 ``` r
+
 edgelist(courses, source_cols = prereq, target_cols = course, na.rm = FALSE)
 #>       from      to from_col to_col dept prereq2 crosslist credits level
 #> 1  math101 stat101   prereq course STAT    <NA>      <NA>       3   100
@@ -190,6 +202,7 @@ edgelist(courses, source_cols = prereq, target_cols = course, na.rm = FALSE)
 carried through. Use `attr_cols` to select specific ones:
 
 ``` r
+
 edgelist(courses, source_cols = prereq, target_cols = course,
          attr_cols = c(dept, credits))
 #>       from      to from_col to_col dept credits
@@ -209,6 +222,7 @@ edgelist(courses, source_cols = prereq, target_cols = course,
 Or pass [`c()`](https://rdrr.io/r/base/c.html) to drop all attributes:
 
 ``` r
+
 edgelist(courses, source_cols = prereq, target_cols = course, attr_cols = c())
 #>       from      to from_col to_col
 #> 1  math101 stat101   prereq course
@@ -227,6 +241,7 @@ edgelist(courses, source_cols = prereq, target_cols = course, attr_cols = c())
 **Symmetric (undirected) edges** with automatic deduplication:
 
 ``` r
+
 edgelist(courses, source_cols = course, target_cols = crosslist,
          symmetric_cols = crosslist, dedupe = TRUE)
 #>      from      to from_col    to_col directed dept  prereq prereq2 credits
@@ -244,6 +259,7 @@ edgelist(courses, source_cols = course, target_cols = crosslist,
 **Edge weights** — collapse identical rows and count:
 
 ``` r
+
 edgelist(courses, source_cols = prereq, target_cols = course, weights = TRUE)
 #>      from      to from_col to_col dept prereq2 crosslist credits level weight
 #> 1 math101 stat101   prereq course STAT    <NA>      <NA>       3   100     NA
@@ -256,6 +272,7 @@ edgelist(courses, source_cols = prereq, target_cols = course, weights = TRUE)
 **Mixed directed and undirected edges:**
 
 ``` r
+
 edgelist(courses,
          source_cols = course,
          target_cols = c(prereq, crosslist),
@@ -283,6 +300,7 @@ edgelist(courses,
 Reorders the data frame so the ID column comes first:
 
 ``` r
+
 nodelist(courses, id_col = course)
 #>     course dept  prereq prereq2 crosslist credits level
 #> 1  stat101 STAT math101    <NA>      <NA>       3   100
@@ -305,6 +323,7 @@ nodelist(courses, id_col = course)
 ## Decision trees (tree)
 
 ``` r
+
 library(tree)
 tr <- tree(Species ~ ., iris)
 ```
@@ -312,6 +331,7 @@ tr <- tree(Species ~ ., iris)
 ### edgelist
 
 ``` r
+
 edgelist(tr)
 #>    from to              label    split_var split_op split_point
 #> 1     1  2 Petal.Length <2.45 Petal.Length        <        2.45
@@ -329,6 +349,7 @@ edgelist(tr)
 ### nodelist
 
 ``` r
+
 nodelist(tr)
 #>    name          var   n        dev       yval is_leaf depth dev_improvement
 #> 1     1 Petal.Length 150 329.583687     setosa   FALSE     0      190.954250
@@ -359,6 +380,7 @@ nodelist(tr)
 ### as.igraph
 
 ``` r
+
 library(igraph)
 #> 
 #> Attaching package: 'igraph'
@@ -373,16 +395,17 @@ library(igraph)
 #>     union
 g <- as.igraph(tr)
 g
-#> IGRAPH 956051e DN-- 11 10 -- 
+#> IGRAPH 69d6dc8 DN-- 11 10 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), dev_improvement (v/n), prob_setosa (v/n),
 #> | prob_versicolor (v/n), prob_virginica (v/n), label (v/c), label
 #> | (e/c), split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from 956051e (vertex names):
+#> + edges from 69d6dc8 (vertex names):
 #>  [1] 1 ->2  1 ->3  3 ->6  6 ->12 12->24 12->25 6 ->13 3 ->7  7 ->14 7 ->15
 ```
 
 ``` r
+
 vcount(g)
 #> [1] 11
 ecount(g)
@@ -392,6 +415,7 @@ ecount(g)
 ### as_tbl_graph
 
 ``` r
+
 library(tidygraph)
 #> 
 #> Attaching package: 'tidygraph'
@@ -436,6 +460,7 @@ as_tbl_graph(tr)
 ## Random forests (randomForest)
 
 ``` r
+
 library(randomForest)
 #> randomForest 4.7-1.2
 #> Type rfNews() to see new features/changes/bug fixes.
@@ -448,6 +473,7 @@ rf <- randomForest(Species ~ ., iris, ntree = 3)
 All trees:
 
 ``` r
+
 edgelist(rf)
 #>    from to split_var split_point prediction direction treenum split_var_name
 #> 1     1  2         1        5.75          0      left       1   Sepal.Length
@@ -511,6 +537,7 @@ edgelist(rf)
 A single tree:
 
 ``` r
+
 edgelist(rf, treenum = 1)
 #>    from to split_var split_point prediction direction treenum split_var_name
 #> 1     1  2         1        5.75          0      left       1   Sepal.Length
@@ -538,6 +565,7 @@ edgelist(rf, treenum = 1)
 Multiple specific trees:
 
 ``` r
+
 edgelist(rf, treenum = c(1, 3))
 #>    from to split_var split_point prediction direction treenum split_var_name
 #> 1     1  2         1        5.75          0      left       1   Sepal.Length
@@ -585,6 +613,7 @@ edgelist(rf, treenum = c(1, 3))
 ### nodelist
 
 ``` r
+
 nodelist(rf, treenum = 1)
 #>    name is_leaf split_var split_var_name split_point prediction treenum
 #> 1     1   FALSE         1   Sepal.Length        5.75         NA       1
@@ -637,14 +666,15 @@ nodelist(rf, treenum = 1)
 Single tree:
 
 ``` r
+
 g <- as.igraph(rf, treenum = 1)
 g
-#> IGRAPH 9811f36 DN-- 21 20 -- 
+#> IGRAPH f93df60 DN-- 21 20 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), treenum (v/n), label
 #> | (v/c), split_var (e/n), split_point (e/n), prediction (e/n),
 #> | direction (e/c), treenum (e/n), split_var_name (e/c)
-#> + edges from 9811f36 (vertex names):
+#> + edges from f93df60 (vertex names):
 #>  [1] 1 ->2  2 ->4  3 ->6  5 ->8  6 ->10 7 ->12 9 ->14 12->16 16->18 18->20
 #> [11] 1 ->3  2 ->5  3 ->7  5 ->9  6 ->11 7 ->13 9 ->15 12->17 16->19 18->21
 ```
@@ -652,6 +682,7 @@ g
 Multiple trees produce disconnected components:
 
 ``` r
+
 g_all <- as.igraph(rf)
 components(g_all)$no
 #> [1] 3
@@ -660,6 +691,7 @@ components(g_all)$no
 ### as_tbl_graph
 
 ``` r
+
 as_tbl_graph(rf, treenum = 1)
 #> # A tbl_graph: 21 nodes and 20 edges
 #> #
@@ -694,6 +726,7 @@ as_tbl_graph(rf, treenum = 1)
 ## Recursive partitioning (rpart)
 
 ``` r
+
 library(rpart)
 rp <- rpart(Species ~ ., iris)
 ```
@@ -701,6 +734,7 @@ rp <- rpart(Species ~ ., iris)
 ### edgelist
 
 ``` r
+
 edgelist(rp)
 #>   from to              label    split_var split_op split_point
 #> 1    1  2 Petal.Length< 2.45 Petal.Length        <        2.45
@@ -712,6 +746,7 @@ edgelist(rp)
 ### nodelist
 
 ``` r
+
 nodelist(rp)
 #>   name          var   n dev       yval is_leaf depth  wt complexity ncompete
 #> 1    1 Petal.Length 150 100     setosa   FALSE     0 150       0.50        3
@@ -736,22 +771,24 @@ nodelist(rp)
 ### as.igraph
 
 ``` r
+
 g <- as.igraph(rp)
 g
-#> IGRAPH e2c8ba4 DN-- 5 4 -- 
+#> IGRAPH 7081471 DN-- 5 4 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), wt (v/n), complexity (v/n), ncompete (v/n),
 #> | nsurrogate (v/n), dev_improvement (v/n), n_setosa (v/n), n_versicolor
 #> | (v/n), n_virginica (v/n), prob_setosa (v/n), prob_versicolor (v/n),
 #> | prob_virginica (v/n), nodeprob (v/n), label (v/c), label (e/c),
 #> | split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from e2c8ba4 (vertex names):
+#> + edges from 7081471 (vertex names):
 #> [1] 1->2 1->3 3->6 3->7
 ```
 
 ### as_tbl_graph
 
 ``` r
+
 as_tbl_graph(rp)
 #> # A tbl_graph: 5 nodes and 4 edges
 #> #
@@ -783,6 +820,7 @@ as_tbl_graph(rp)
 ## Gradient boosted models (gbm)
 
 ``` r
+
 library(gbm)
 #> Loaded gbm 2.2.3
 #> This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
@@ -796,6 +834,7 @@ gb <- gbm(as.numeric(Species == "setosa") ~ ., data = iris,
 All trees:
 
 ``` r
+
 edgelist(gb)
 #>    from to split_var split_point prediction treenum split_var_name
 #> 1     0  1         2        2.45  0.3000000       1   Petal.Length
@@ -821,6 +860,7 @@ edgelist(gb)
 A single tree:
 
 ``` r
+
 edgelist(gb, treenum = 1)
 #>   from to split_var split_point prediction treenum split_var_name
 #> 1    0  1         2        2.45       0.30       1   Petal.Length
@@ -834,6 +874,7 @@ edgelist(gb, treenum = 1)
 ### nodelist
 
 ``` r
+
 nodelist(gb, treenum = 1)
 #>   name is_leaf split_var split_var_name split_point prediction error_reduction
 #> 1    0   FALSE         2   Petal.Length        2.45      0.018    1.754667e+01
@@ -856,21 +897,23 @@ nodelist(gb, treenum = 1)
 ### as.igraph
 
 ``` r
+
 g <- as.igraph(gb, treenum = 1)
 g
-#> IGRAPH 54d1a53 DN-- 7 6 -- 
+#> IGRAPH d12246f DN-- 7 6 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), error_reduction (v/n),
 #> | weight (v/n), treenum (v/n), label (v/c), split_var (e/n),
 #> | split_point (e/n), prediction (e/n), treenum (e/n), split_var_name
 #> | (e/c)
-#> + edges from 54d1a53 (vertex names):
+#> + edges from d12246f (vertex names):
 #> [1] 0->1 1->2 5->6 0->5 1->3 5->7
 ```
 
 ### as_tbl_graph
 
 ``` r
+
 as_tbl_graph(gb, treenum = 1)
 #> # A tbl_graph: 7 nodes and 6 edges
 #> #
@@ -902,6 +945,7 @@ as_tbl_graph(gb, treenum = 1)
 ## XGBoost (xgb.Booster)
 
 ``` r
+
 library(xgboost)
 set.seed(12)
 xg <- xgboost(
@@ -916,6 +960,7 @@ xg <- xgboost(
 All trees:
 
 ``` r
+
 edgelist(xg)
 #>    from   to      feature split    quality     cover treenum
 #> 1   0-0  0-1 Petal.Length   3.0 72.2967682 66.666664       1
@@ -977,6 +1022,7 @@ edgelist(xg)
 A single tree:
 
 ``` r
+
 edgelist(xg, treenum = 1)
 #>   from  to      feature split  quality    cover treenum
 #> 1  0-0 0-1 Petal.Length     3 72.29677 66.66666       1
@@ -986,6 +1032,7 @@ edgelist(xg, treenum = 1)
 ### nodelist
 
 ``` r
+
 nodelist(xg, treenum = 1)
 #>   name is_leaf      feature split    quality    cover missing treenum
 #> 1  0-0   FALSE Petal.Length     3 72.2967682 66.66666     0-2       1
@@ -1000,19 +1047,21 @@ nodelist(xg, treenum = 1)
 ### as.igraph
 
 ``` r
+
 g <- as.igraph(xg, treenum = 1)
 g
-#> IGRAPH 22be017 DN-- 3 2 -- 
+#> IGRAPH dea9b5b DN-- 3 2 -- 
 #> + attr: name (v/c), is_leaf (v/l), feature (v/c), split (v/n), quality
 #> | (v/n), cover (v/n), missing (v/c), treenum (v/n), label (v/c),
 #> | feature (e/c), split (e/n), quality (e/n), cover (e/n), treenum (e/n)
-#> + edges from 22be017 (vertex names):
+#> + edges from dea9b5b (vertex names):
 #> [1] 0-0->0-1 0-0->0-2
 ```
 
 ### as_tbl_graph
 
 ``` r
+
 as_tbl_graph(xg, treenum = 1)
 #> # A tbl_graph: 3 nodes and 2 edges
 #> #
@@ -1038,26 +1087,26 @@ as_tbl_graph(xg, treenum = 1)
 
 ### edgelist columns by input type
 
-| Input        | Columns                                                                                          |
-|--------------|--------------------------------------------------------------------------------------------------|
-| vector       | `from`, `to`, \[`weight`\]                                                                       |
-| list         | `from`, `to`, `depth`                                                                            |
-| data.frame   | `from`, `to`, `from_col`, `to_col`, \[`directed`\], \[`weight`\], \<attrs\>                      |
-| tree         | `from`, `to`, `label`, `split_var`, `split_op`, `split_point`                                    |
-| rpart        | `from`, `to`, `label`, `split_var`, `split_op`, `split_point`                                    |
+| Input | Columns |
+|----|----|
+| vector | `from`, `to`, \[`weight`\] |
+| list | `from`, `to`, `depth` |
+| data.frame | `from`, `to`, `from_col`, `to_col`, \[`directed`\], \[`weight`\], \<attrs\> |
+| tree | `from`, `to`, `label`, `split_var`, `split_op`, `split_point` |
+| rpart | `from`, `to`, `label`, `split_var`, `split_op`, `split_point` |
 | randomForest | `from`, `to`, `split_var`, `split_point`, `prediction`, `direction`, `treenum`, `split_var_name` |
-| gbm          | `from`, `to`, `split_var`, `split_point`, `prediction`, `treenum`, `split_var_name`              |
-| xgb.Booster  | `from`, `to`, `feature`, `split`, `quality`, `cover`, `treenum`                                  |
+| gbm | `from`, `to`, `split_var`, `split_point`, `prediction`, `treenum`, `split_var_name` |
+| xgb.Booster | `from`, `to`, `feature`, `split`, `quality`, `cover`, `treenum` |
 
 ### nodelist columns by input type
 
-| Input        | Columns                                                                                           |
-|--------------|---------------------------------------------------------------------------------------------------|
-| vector       | `name`, `n`                                                                                       |
-| list         | `name`, `depth`, `type`, `n_children`, `label`                                                    |
-| data.frame   | (input columns reordered, `id_col` first)                                                         |
-| tree         | `name`, `var`, `n`, `dev`, `yval`, `is_leaf`, `label`                                             |
-| rpart        | `name`, `var`, `n`, `dev`, `yval`, `is_leaf`, `label`                                             |
+| Input | Columns |
+|----|----|
+| vector | `name`, `n` |
+| list | `name`, `depth`, `type`, `n_children`, `label` |
+| data.frame | (input columns reordered, `id_col` first) |
+| tree | `name`, `var`, `n`, `dev`, `yval`, `is_leaf`, `label` |
+| rpart | `name`, `var`, `n`, `dev`, `yval`, `is_leaf`, `label` |
 | randomForest | `name`, `is_leaf`, `split_var`, `split_var_name`, `split_point`, `prediction`, `treenum`, `label` |
-| gbm          | `name`, `is_leaf`, `split_var`, `split_var_name`, `split_point`, `prediction`, `treenum`, `label` |
-| xgb.Booster  | `name`, `is_leaf`, `feature`, `split`, `quality`, `cover`, `treenum`, `label`                     |
+| gbm | `name`, `is_leaf`, `split_var`, `split_var_name`, `split_point`, `prediction`, `treenum`, `label` |
+| xgb.Booster | `name`, `is_leaf`, `feature`, `split`, `quality`, `cover`, `treenum`, `label` |

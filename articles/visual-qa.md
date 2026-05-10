@@ -9,6 +9,7 @@ reference](https://jesseabrandt.github.io/networkformat/articles/complete-method
 ## Decision tree (tree)
 
 ``` r
+
 tr <- tree::tree(Species ~ Sepal.Length + Sepal.Width, data = iris)
 tg <- as_tbl_graph(tr) %>%
   mutate(fill_var = ifelse(is_leaf, yval, var))
@@ -43,6 +44,7 @@ ggraph(tg, layout = "tree") +
 ## Recursive partitioning (rpart)
 
 ``` r
+
 rp <- rpart::rpart(Species ~ ., data = iris)
 tg_rp <- as_tbl_graph(rp) %>%
   mutate(fill_var = ifelse(is_leaf, yval, var))
@@ -79,6 +81,7 @@ ggraph(tg_rp, layout = "tree") +
 All trees as disconnected components:
 
 ``` r
+
 set.seed(12)
 rf <- randomForest::randomForest(Species ~ ., data = iris, ntree = 3, maxnodes = 5)
 tg_rf <- as_tbl_graph(rf) %>%
@@ -115,6 +118,7 @@ ggraph(tg_rf, layout = "tree") +
 Single-tree closeup with dendrogram layout:
 
 ``` r
+
 tg1 <- as_tbl_graph(rf, treenum = 1) %>%
   mutate(fill_var = ifelse(is_leaf,
     ifelse(prediction == 0, NA_character_, rf$classes[prediction]),
@@ -143,6 +147,7 @@ ggraph(tg1, layout = "dendrogram") +
 ## Gradient boosted model (gbm)
 
 ``` r
+
 set.seed(12)
 gb <- gbm::gbm(mpg ~ ., data = mtcars,
                 distribution = "gaussian", n.trees = 3, interaction.depth = 3,
@@ -172,6 +177,7 @@ ggraph(tg_gb, layout = "tree") +
 All trees as disconnected components:
 
 ``` r
+
 tg_gb_all <- as_tbl_graph(gb) %>%
   mutate(fill_var = ifelse(is_leaf, prediction, NA_real_))
 
@@ -196,6 +202,7 @@ ggraph(tg_gb_all, layout = "tree") +
 ## XGBoost (xgb.Booster)
 
 ``` r
+
 set.seed(12)
 xg <- xgboost::xgboost(
   x = as.matrix(iris[, 1:4]),
@@ -226,6 +233,7 @@ ggraph(tg_xg, layout = "tree") +
 All trees as disconnected components:
 
 ``` r
+
 tg_xg_all <- as_tbl_graph(xg) %>%
   mutate(fill_var = ifelse(is_leaf, quality, NA_real_))
 
@@ -249,6 +257,7 @@ ggraph(tg_xg_all, layout = "tree") +
 ## Course prerequisite network (data.frame)
 
 ``` r
+
 data(courses)
 all_edges <- edgelist(courses,
                       source_cols = c(prereq, prereq2, crosslist),
@@ -287,6 +296,7 @@ ggraph(tg_courses, layout = "stress") +
 ## List
 
 ``` r
+
 x <- list(
   model = list(
     coefficients = 0.5,
@@ -328,6 +338,7 @@ ggraph(tg_list, layout = "tree") +
 ## Vector
 
 ``` r
+
 v <- c("Intro", "Methods", "Analysis", "Results", "Discussion")
 el <- edgelist(v)
 nl <- nodelist(v)

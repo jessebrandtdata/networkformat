@@ -13,6 +13,7 @@ igraph/tidygraph/ggraph. Version 0.0.0.9000 (experimental).
 ## Development Commands
 
 ``` r
+
 # Load package for interactive development
 devtools::load_all()
 
@@ -43,44 +44,44 @@ The package uses **S3 method dispatch** with four groups of functions:
 
 ### `edgelist()` — extract edges
 
-| Method                  | Input         | Key Parameters                                                                            | Output Columns                                                                   | Status   |
-|-------------------------|---------------|-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|----------|
-| `edgelist.default`      | atomic vector | `weights`                                                                                 | from, to, \[weight\]                                                             | Complete |
-| `edgelist.list`         | list          | `name_root`, `max_depth`                                                                  | from, to, depth                                                                  | Complete |
-| `edgelist.data.frame`   | data.frame    | `source_cols`, `target_cols`, `attr_cols`, `na.rm`, `symmetric_cols`, `dedupe`, `weights` | from, to, from_col, to_col, \[directed\], \[weight\], \<attrs\>                  | Complete |
-| `edgelist.randomForest` | randomForest  | `treenum`                                                                                 | from, to, split_var, split_point, prediction, direction, treenum, split_var_name | Complete |
-| `edgelist.tree`         | tree          |                                                                                           | from, to, label, split_var, split_op, split_point                                | Complete |
-| `edgelist.rpart`        | rpart         |                                                                                           | from, to, label, split_var, split_op, split_point                                | Complete |
-| `edgelist.xgb.Booster`  | xgb.Booster   | `treenum`                                                                                 | from, to, feature, split, quality, cover, treenum                                | Complete |
-| `edgelist.gbm`          | gbm           | `treenum`                                                                                 | from, to, split_var, split_point, prediction, treenum, split_var_name            | Complete |
+| Method | Input | Key Parameters | Output Columns | Status |
+|----|----|----|----|----|
+| `edgelist.default` | atomic vector | `weights` | from, to, \[weight\] | Complete |
+| `edgelist.list` | list | `name_root`, `max_depth` | from, to, depth | Complete |
+| `edgelist.data.frame` | data.frame | `source_cols`, `target_cols`, `attr_cols`, `na.rm`, `symmetric_cols`, `dedupe`, `weights` | from, to, from_col, to_col, \[directed\], \[weight\], \<attrs\> | Complete |
+| `edgelist.randomForest` | randomForest | `treenum` | from, to, split_var, split_point, prediction, direction, treenum, split_var_name | Complete |
+| `edgelist.tree` | tree |  | from, to, label, split_var, split_op, split_point | Complete |
+| `edgelist.rpart` | rpart |  | from, to, label, split_var, split_op, split_point | Complete |
+| `edgelist.xgb.Booster` | xgb.Booster | `treenum` | from, to, feature, split, quality, cover, treenum | Complete |
+| `edgelist.gbm` | gbm | `treenum` | from, to, split_var, split_point, prediction, treenum, split_var_name | Complete |
 
 ### `nodelist()` — extract node attributes
 
-| Method                  | Input         | Key Parameters           | Output Columns                                                                                                                               | Status   |
-|-------------------------|---------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `nodelist.default`      | atomic vector |                          | name, n                                                                                                                                      | Complete |
-| `nodelist.list`         | list          | `name_root`, `max_depth` | name, depth, type, n_children, label                                                                                                         | Complete |
-| `nodelist.data.frame`   | data.frame    | `id_col`                 | (reordered input, id_col first)                                                                                                              | Complete |
-| `nodelist.randomForest` | randomForest  | `treenum`                | name, is_leaf, split_var, split_var_name, split_point, prediction, treenum, label                                                            | Complete |
-| `nodelist.tree`         | tree          |                          | name, var, n, dev, yval, is_leaf, depth, dev_improvement, \[prob\_\*\], label                                                                | Complete |
-| `nodelist.rpart`        | rpart         |                          | name, var, n, dev, yval, is_leaf, depth, wt, complexity, ncompete, nsurrogate, dev_improvement, \[n\_\*\], \[prob\_\*\], \[nodeprob\], label | Complete |
-| `nodelist.xgb.Booster`  | xgb.Booster   | `treenum`                | name, is_leaf, feature, split, quality, cover, missing, treenum, label                                                                       | Complete |
-| `nodelist.gbm`          | gbm           | `treenum`                | name, is_leaf, split_var, split_var_name, split_point, prediction, error_reduction, weight, treenum, label                                   | Complete |
+| Method | Input | Key Parameters | Output Columns | Status |
+|----|----|----|----|----|
+| `nodelist.default` | atomic vector |  | name, n | Complete |
+| `nodelist.list` | list | `name_root`, `max_depth` | name, depth, type, n_children, label | Complete |
+| `nodelist.data.frame` | data.frame | `id_col` | (reordered input, id_col first) | Complete |
+| `nodelist.randomForest` | randomForest | `treenum` | name, is_leaf, split_var, split_var_name, split_point, prediction, treenum, label | Complete |
+| `nodelist.tree` | tree |  | name, var, n, dev, yval, is_leaf, depth, dev_improvement, \[prob\_\*\], label | Complete |
+| `nodelist.rpart` | rpart |  | name, var, n, dev, yval, is_leaf, depth, wt, complexity, ncompete, nsurrogate, dev_improvement, \[n\_\*\], \[prob\_\*\], \[nodeprob\], label | Complete |
+| `nodelist.xgb.Booster` | xgb.Booster | `treenum` | name, is_leaf, feature, split, quality, cover, missing, treenum, label | Complete |
+| `nodelist.gbm` | gbm | `treenum` | name, is_leaf, split_var, split_var_name, split_point, prediction, error_reduction, weight, treenum, label | Complete |
 
 ### `as.igraph()` / `as_tbl_graph()` — direct graph construction
 
-| Method                      | Input        | Key Parameters                   | Returns                                           |
-|-----------------------------|--------------|----------------------------------|---------------------------------------------------|
-| `as.igraph.tree`            | tree         |                                  | igraph                                            |
-| `as.igraph.randomForest`    | randomForest | `treenum` (default `NULL` = all) | igraph (multiple trees = disconnected components) |
-| `as.igraph.rpart`           | rpart        |                                  | igraph                                            |
-| `as.igraph.xgb.Booster`     | xgb.Booster  | `treenum` (default `NULL` = all) | igraph (string IDs, globally unique)              |
-| `as.igraph.gbm`             | gbm          | `treenum` (default `NULL` = all) | igraph (multi-tree: prefixed IDs)                 |
-| `as_tbl_graph.tree`         | tree         |                                  | tbl_graph                                         |
-| `as_tbl_graph.randomForest` | randomForest | `treenum` (default `NULL` = all) | tbl_graph                                         |
-| `as_tbl_graph.rpart`        | rpart        |                                  | tbl_graph                                         |
-| `as_tbl_graph.xgb.Booster`  | xgb.Booster  | `treenum` (default `NULL` = all) | tbl_graph                                         |
-| `as_tbl_graph.gbm`          | gbm          | `treenum` (default `NULL` = all) | tbl_graph                                         |
+| Method | Input | Key Parameters | Returns |
+|----|----|----|----|
+| `as.igraph.tree` | tree |  | igraph |
+| `as.igraph.randomForest` | randomForest | `treenum` (default `NULL` = all) | igraph (multiple trees = disconnected components) |
+| `as.igraph.rpart` | rpart |  | igraph |
+| `as.igraph.xgb.Booster` | xgb.Booster | `treenum` (default `NULL` = all) | igraph (string IDs, globally unique) |
+| `as.igraph.gbm` | gbm | `treenum` (default `NULL` = all) | igraph (multi-tree: prefixed IDs) |
+| `as_tbl_graph.tree` | tree |  | tbl_graph |
+| `as_tbl_graph.randomForest` | randomForest | `treenum` (default `NULL` = all) | tbl_graph |
+| `as_tbl_graph.rpart` | rpart |  | tbl_graph |
+| `as_tbl_graph.xgb.Booster` | xgb.Booster | `treenum` (default `NULL` = all) | tbl_graph |
+| `as_tbl_graph.gbm` | gbm | `treenum` (default `NULL` = all) | tbl_graph |
 
 **Both `as.igraph` and `as_tbl_graph` use delayed S3 registration** —
 the generics belong to igraph and tidygraph respectively, not this

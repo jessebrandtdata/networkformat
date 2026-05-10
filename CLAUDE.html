@@ -75,51 +75,51 @@
 <div class="section level3">
 <h3 id="edgelist--extract-edges">
 <code>edgelist()</code> — extract edges<a class="anchor" aria-label="anchor" href="#edgelist--extract-edges"></a></h3>
-<table class="table"><colgroup><col width="14%"><col width="12%"><col width="27%"><col width="29%"><col width="14%"></colgroup><thead><tr class="header"><th>Method</th>
+<table class="table"><colgroup><col width="14%"><col width="12%"><col width="27%"><col width="29%"><col width="14%"></colgroup><thead><tr><th>Method</th>
 <th>Input</th>
 <th>Key Parameters</th>
 <th>Output Columns</th>
 <th>Status</th>
-</tr></thead><tbody><tr class="odd"><td><code>edgelist.default</code></td>
+</tr></thead><tbody><tr><td><code>edgelist.default</code></td>
 <td>atomic vector</td>
 <td><code>weights</code></td>
 <td>from, to, [weight]</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>edgelist.list</code></td>
+</tr><tr><td><code>edgelist.list</code></td>
 <td>list</td>
 <td>
 <code>name_root</code>, <code>max_depth</code>
 </td>
 <td>from, to, depth</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>edgelist.data.frame</code></td>
+</tr><tr><td><code>edgelist.data.frame</code></td>
 <td>data.frame</td>
 <td>
 <code>source_cols</code>, <code>target_cols</code>, <code>attr_cols</code>, <code>na.rm</code>, <code>symmetric_cols</code>, <code>dedupe</code>, <code>weights</code>
 </td>
 <td>from, to, from_col, to_col, [directed], [weight], &lt;attrs&gt;</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>edgelist.randomForest</code></td>
+</tr><tr><td><code>edgelist.randomForest</code></td>
 <td>randomForest</td>
 <td><code>treenum</code></td>
 <td>from, to, split_var, split_point, prediction, direction, treenum, split_var_name</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>edgelist.tree</code></td>
+</tr><tr><td><code>edgelist.tree</code></td>
 <td>tree</td>
 <td></td>
 <td>from, to, label, split_var, split_op, split_point</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>edgelist.rpart</code></td>
+</tr><tr><td><code>edgelist.rpart</code></td>
 <td>rpart</td>
 <td></td>
 <td>from, to, label, split_var, split_op, split_point</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>edgelist.xgb.Booster</code></td>
+</tr><tr><td><code>edgelist.xgb.Booster</code></td>
 <td>xgb.Booster</td>
 <td><code>treenum</code></td>
 <td>from, to, feature, split, quality, cover, treenum</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>edgelist.gbm</code></td>
+</tr><tr><td><code>edgelist.gbm</code></td>
 <td>gbm</td>
 <td><code>treenum</code></td>
 <td>from, to, split_var, split_point, prediction, treenum, split_var_name</td>
@@ -128,49 +128,49 @@
 <div class="section level3">
 <h3 id="nodelist--extract-node-attributes">
 <code>nodelist()</code> — extract node attributes<a class="anchor" aria-label="anchor" href="#nodelist--extract-node-attributes"></a></h3>
-<table class="table"><colgroup><col width="14%"><col width="12%"><col width="27%"><col width="29%"><col width="14%"></colgroup><thead><tr class="header"><th>Method</th>
+<table class="table"><colgroup><col width="14%"><col width="12%"><col width="27%"><col width="29%"><col width="14%"></colgroup><thead><tr><th>Method</th>
 <th>Input</th>
 <th>Key Parameters</th>
 <th>Output Columns</th>
 <th>Status</th>
-</tr></thead><tbody><tr class="odd"><td><code>nodelist.default</code></td>
+</tr></thead><tbody><tr><td><code>nodelist.default</code></td>
 <td>atomic vector</td>
 <td></td>
 <td>name, n</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>nodelist.list</code></td>
+</tr><tr><td><code>nodelist.list</code></td>
 <td>list</td>
 <td>
 <code>name_root</code>, <code>max_depth</code>
 </td>
 <td>name, depth, type, n_children, label</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>nodelist.data.frame</code></td>
+</tr><tr><td><code>nodelist.data.frame</code></td>
 <td>data.frame</td>
 <td><code>id_col</code></td>
 <td>(reordered input, id_col first)</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>nodelist.randomForest</code></td>
+</tr><tr><td><code>nodelist.randomForest</code></td>
 <td>randomForest</td>
 <td><code>treenum</code></td>
 <td>name, is_leaf, split_var, split_var_name, split_point, prediction, treenum, label</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>nodelist.tree</code></td>
+</tr><tr><td><code>nodelist.tree</code></td>
 <td>tree</td>
 <td></td>
 <td>name, var, n, dev, yval, is_leaf, depth, dev_improvement, [prob_*], label</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>nodelist.rpart</code></td>
+</tr><tr><td><code>nodelist.rpart</code></td>
 <td>rpart</td>
 <td></td>
 <td>name, var, n, dev, yval, is_leaf, depth, wt, complexity, ncompete, nsurrogate, dev_improvement, [n_*], [prob_*], [nodeprob], label</td>
 <td>Complete</td>
-</tr><tr class="odd"><td><code>nodelist.xgb.Booster</code></td>
+</tr><tr><td><code>nodelist.xgb.Booster</code></td>
 <td>xgb.Booster</td>
 <td><code>treenum</code></td>
 <td>name, is_leaf, feature, split, quality, cover, missing, treenum, label</td>
 <td>Complete</td>
-</tr><tr class="even"><td><code>nodelist.gbm</code></td>
+</tr><tr><td><code>nodelist.gbm</code></td>
 <td>gbm</td>
 <td><code>treenum</code></td>
 <td>name, is_leaf, split_var, split_var_name, split_point, prediction, error_reduction, weight, treenum, label</td>
@@ -179,52 +179,52 @@
 <div class="section level3">
 <h3 id="asigraph--as_tbl_graph--direct-graph-construction">
 <code>as.igraph()</code> / <code>as_tbl_graph()</code> — direct graph construction<a class="anchor" aria-label="anchor" href="#asigraph--as_tbl_graph--direct-graph-construction"></a></h3>
-<table class="table"><colgroup><col width="20%"><col width="17%"><col width="38%"><col width="23%"></colgroup><thead><tr class="header"><th>Method</th>
+<table class="table"><colgroup><col width="20%"><col width="17%"><col width="38%"><col width="23%"></colgroup><thead><tr><th>Method</th>
 <th>Input</th>
 <th>Key Parameters</th>
 <th>Returns</th>
-</tr></thead><tbody><tr class="odd"><td><code>as.igraph.tree</code></td>
+</tr></thead><tbody><tr><td><code>as.igraph.tree</code></td>
 <td>tree</td>
 <td></td>
 <td>igraph</td>
-</tr><tr class="even"><td><code>as.igraph.randomForest</code></td>
+</tr><tr><td><code>as.igraph.randomForest</code></td>
 <td>randomForest</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>
 <td>igraph (multiple trees = disconnected components)</td>
-</tr><tr class="odd"><td><code>as.igraph.rpart</code></td>
+</tr><tr><td><code>as.igraph.rpart</code></td>
 <td>rpart</td>
 <td></td>
 <td>igraph</td>
-</tr><tr class="even"><td><code>as.igraph.xgb.Booster</code></td>
+</tr><tr><td><code>as.igraph.xgb.Booster</code></td>
 <td>xgb.Booster</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>
 <td>igraph (string IDs, globally unique)</td>
-</tr><tr class="odd"><td><code>as.igraph.gbm</code></td>
+</tr><tr><td><code>as.igraph.gbm</code></td>
 <td>gbm</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>
 <td>igraph (multi-tree: prefixed IDs)</td>
-</tr><tr class="even"><td><code>as_tbl_graph.tree</code></td>
+</tr><tr><td><code>as_tbl_graph.tree</code></td>
 <td>tree</td>
 <td></td>
 <td>tbl_graph</td>
-</tr><tr class="odd"><td><code>as_tbl_graph.randomForest</code></td>
+</tr><tr><td><code>as_tbl_graph.randomForest</code></td>
 <td>randomForest</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>
 <td>tbl_graph</td>
-</tr><tr class="even"><td><code>as_tbl_graph.rpart</code></td>
+</tr><tr><td><code>as_tbl_graph.rpart</code></td>
 <td>rpart</td>
 <td></td>
 <td>tbl_graph</td>
-</tr><tr class="odd"><td><code>as_tbl_graph.xgb.Booster</code></td>
+</tr><tr><td><code>as_tbl_graph.xgb.Booster</code></td>
 <td>xgb.Booster</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>
 <td>tbl_graph</td>
-</tr><tr class="even"><td><code>as_tbl_graph.gbm</code></td>
+</tr><tr><td><code>as_tbl_graph.gbm</code></td>
 <td>gbm</td>
 <td>
 <code>treenum</code> (default <code>NULL</code> = all)</td>

@@ -20,6 +20,7 @@ in the format that the rest of the R network ecosystem expects.
 The simplest case — a vector becomes a chain of edges:
 
 ``` r
+
 library(networkformat)
 
 edgelist(c("start", "middle", "end"))
@@ -36,6 +37,7 @@ nodelist(c("A", "B", "A", "C"))
 Five lines from tree model to plot:
 
 ``` r
+
 library(networkformat)
 library(tidygraph)
 library(ggraph)
@@ -60,6 +62,7 @@ networkformat also works with plain data frames. The bundled `courses`
 dataset has prerequisite and crosslisting relationships:
 
 ``` r
+
 library(networkformat)
 
 # Prerequisite edgelist
@@ -139,16 +142,16 @@ whatever your analysis requires.
 
 ### Currently available
 
-| Input                   | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) |
-|-------------------------|:----------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
-| atomic vector           |                                        yes                                         |                                        yes                                         |                                          no                                          |
-| `list`                  |                                        yes                                         |                                        yes                                         |                                          no                                          |
-| `data.frame`            |                                        yes                                         |                                        yes                                         |                                          —                                           |
-| `tree`                  |                                        yes                                         |                                        yes                                         |                                         yes                                          |
-| `randomForest`          |                                        yes                                         |                                        yes                                         |                                         yes                                          |
-| `rpart`                 |                                        yes                                         |                                        yes                                         |                                         yes                                          |
-| `xgb.Booster` (xgboost) |                                        yes                                         |                                        yes                                         |                                         yes                                          |
-| `gbm`                   |                                        yes                                         |                                        yes                                         |                                         yes                                          |
+| Input | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) |
+|----|:--:|:--:|:--:|
+| atomic vector | yes | yes | no |
+| `list` | yes | yes | no |
+| `data.frame` | yes | yes | — |
+| `tree` | yes | yes | yes |
+| `randomForest` | yes | yes | yes |
+| `rpart` | yes | yes | yes |
+| `xgb.Booster` (xgboost) | yes | yes | yes |
+| `gbm` | yes | yes | yes |
 
 For data frames, tidygraph’s
 [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
