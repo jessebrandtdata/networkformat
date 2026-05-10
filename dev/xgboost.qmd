@@ -1,0 +1,63 @@
+---
+title: "xgboost"
+format: html
+---
+
+# Setup
+
+```{r}
+pacman::p_load(xgboost)
+dplyr::glimpse(mtcars)
+```
+
+```{r}
+y <- mtcars$mpg
+x <- mtcars[,c("cyl", "disp", "hp", "drat", "wt", "qsec")]
+```
+
+```{r}
+xg <- xgboost(x, y)
+```
+
+This is an external pointer! I guess that makes sense. It's efficient and stuff so it's C/C++?
+
+
+# Explore structure
+
+Do I convert this first? Is there like an RCPP thing I need to do or will this be simple
+
+also - if they have a graphviz/diagrammer plot function, 
+
+```{r}
+raw <- xgb.save.raw(xg)
+# no idea what this means
+dump <-xgb.dump(xg, dump_format = "json")[[1L]]
+dump
+```
+```{r}
+xg_j <- jsonlite::fromJSON(dump)
+```
+
+```{r}
+xg_dt <- xgb.model.dt.tree(model = xg)
+```
+
+JSON seems straightforward!! It's a hierarchical structure so pretty intuitive. Something for doing this might even already exist, but I want my package to support lots of inputs + don't want too many dependencies. On the other hand, dt is more similar to the other ones I've done. WAIT that's literally way easier doing that.
+
+Note to self: remember, you can make more efficient later (eg do in C++ lol).
+
+Is this going to be a headache without those unnest functions? :( Oh nvm it's easy.
+
+I think the next issue is: how do I handle node attributes? It is possible to put that information in an edgelist. But I need to know the most convenient way. I think I may have to mess around w igraph for a while.
+
+
+```{r}
+
+df <- data.frame(source = c(xg_dt$ID, xg_dt$ID),
+                 target = c(xg_dt$Yes, xg_dt$No))
+# lol that's literally it some of these are way more convenient
+# now I just have to add the other columns.
+# also I can format IDs this way for randomForest package
+```
+
+
