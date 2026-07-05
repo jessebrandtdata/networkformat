@@ -251,6 +251,25 @@ test_that("as_tbl_graph.xgb.Booster returns tbl_graph", {
   expect_s3_class(tg, "tbl_graph")
 })
 
+test_that("as.igraph.xgb.Booster handles all-stump model as isolated vertices", {
+  skip_if_not_installed("xgboost")
+  skip_if_not_installed("igraph")
+
+  data(agaricus.train, package = "xgboost")
+  dtrain <- xgboost::xgb.DMatrix(data = agaricus.train$data,
+                                   label = agaricus.train$label)
+  # Large gamma blocks every split: leaves only, so the graph has vertices
+  # (one leaf per round) but no edges.
+  bst <- xgboost::xgb.train(
+    params = list(max_depth = 6, gamma = 1e6, objective = "binary:logistic"),
+    data = dtrain, nrounds = 2, verbose = 0)
+  g <- igraph::as.igraph(bst)
+
+  expect_true(igraph::is_igraph(g))
+  expect_equal(igraph::ecount(g), 0L)
+  expect_equal(igraph::vcount(g), nrow(nodelist(bst)))
+})
+
 # --- as.igraph.gbm tests ---
 
 test_that("as.igraph.gbm treenum=1 returns igraph", {
