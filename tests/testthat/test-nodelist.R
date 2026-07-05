@@ -937,6 +937,26 @@ test_that("nodelist.xgb.Booster label is last column", {
   expect_equal(names(nl)[ncol(nl)], "label")
 })
 
+test_that("nodelist.xgb.Booster returns leaf-only nodes for all-stump ensemble", {
+  skip_if_not_installed("xgboost")
+
+  data(agaricus.train, package = "xgboost")
+  dtrain <- xgboost::xgb.DMatrix(data = agaricus.train$data,
+                                   label = agaricus.train$label)
+  # Large gamma blocks all splits: every round yields a single leaf node.
+  bst <- xgboost::xgb.train(
+    params = list(max_depth = 6, gamma = 1e6, objective = "binary:logistic"),
+    data = dtrain, nrounds = 2, verbose = 0)
+  nl <- nodelist(bst)
+
+  # Two rounds, one leaf each
+  expect_equal(nrow(nl), 2L)
+  expect_true(all(nl$is_leaf))
+  expect_true(all(is.na(nl$feature)))
+  expect_true(all(is.na(nl$split)))
+  expect_equal(sort(unique(nl$treenum)), c(1L, 2L))
+})
+
 # --- nodelist.gbm tests ---
 
 test_that("nodelist.gbm returns expected columns", {
@@ -1244,4 +1264,19 @@ test_that("nodelist.list NA names use positional fallback", {
 
   expect_equal(nl$name[3], "root/[[2]]")
   expect_equal(nl$label[3], "[[2]]")
+})
+
+test_that("nodelist.list grows node accumulator past initial buffer capacity", {
+  # The node accumulator starts with 64 slots and doubles when exceeded; a
+  # flat list of 100 elements forces growth and must still bind the root plus
+  # every child node.
+  n <- 100L
+  nl <- nodelist(as.list(seq_len(n)))
+
+  # Root row plus one row per element
+  expect_equal(nrow(nl), n + 1L)
+  expect_equal(nl$name[1], "root")
+  expect_equal(nl$depth[1], 0L)
+  expect_true(all(nl$depth[-1] == 1L))
+  expect_equal(nl$name[n + 1L], paste0("root/[[", n, "]]"))
 })
