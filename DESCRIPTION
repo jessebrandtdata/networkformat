@@ -4,7 +4,7 @@ Title: Convert R Objects to Network Edgelists and Nodelists
 Version: 0.1.0
 Authors@R: person(
       "Jesse", "Brandt",
-      email = "jesseabrandt@users.noreply.github.com",
+      email = "jesse.a.brandt@gmail.com",
       role = c("aut", "cre"),
       comment = c(ORCID = "0009-0005-7462-075X")
     )

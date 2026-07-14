@@ -17,11 +17,11 @@ Vignettes:
 }
 }
 \author{
-\strong{Maintainer}: Jesse Brandt \email{jesseabrandt@users.noreply.github.com} (\href{https://orcid.org/0009-0005-7462-075X}{ORCID})
+\strong{Maintainer}: Jesse Brandt \email{jesse.a.brandt@gmail.com} (\href{https://orcid.org/0009-0005-7462-075X}{ORCID})
 
 Authors:
 \itemize{
-  \item Jesse Brandt \email{jesseabrandt@users.noreply.github.com} (\href{https://orcid.org/0009-0005-7462-075X}{ORCID})
+  \item Jesse Brandt \email{jesse.a.brandt@gmail.com} (\href{https://orcid.org/0009-0005-7462-075X}{ORCID})
 }
 
 }
