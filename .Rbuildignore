@@ -18,3 +18,7 @@
 ^CLAUDE\.md$
 ^docs$
 ^README\.html$
+^north_star\.md$
+^\.worktrees$
+^cran-comments\.md$
+^DECISIONS\.md$
