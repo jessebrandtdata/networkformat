@@ -871,6 +871,32 @@ test_that("edgelist.xgb.Booster multi-class model works", {
   expect_equal(length(unique(el$treenum)), 6)
 })
 
+test_that("edgelist.xgb.Booster returns typed empty data.frame for all-stump ensemble", {
+  skip_if_not_installed("xgboost")
+
+  data(agaricus.train, package = "xgboost")
+  dtrain <- xgboost::xgb.DMatrix(data = agaricus.train$data,
+                                   label = agaricus.train$label)
+  # A large gamma (min split loss) blocks every split, so each round is a
+  # single leaf node with no internal nodes and therefore no edges.
+  bst <- xgboost::xgb.train(
+    params = list(max_depth = 6, gamma = 1e6, objective = "binary:logistic"),
+    data = dtrain, nrounds = 2, verbose = 0)
+  el <- edgelist(bst)
+
+  expect_s3_class(el, "data.frame")
+  expect_equal(nrow(el), 0L)
+  expect_equal(names(el),
+               c("from", "to", "feature", "split", "quality", "cover", "treenum"))
+  # Column types are preserved even with zero rows
+  expect_type(el$from, "character")
+  expect_type(el$to, "character")
+  expect_type(el$split, "double")
+  expect_type(el$quality, "double")
+  expect_type(el$cover, "double")
+  expect_type(el$treenum, "integer")
+})
+
 # --- edgelist.gbm tests ---
 
 test_that("edgelist.gbm produces data frame with expected columns", {
@@ -1131,4 +1157,18 @@ test_that("edgelist.list escapes / in element names", {
   expect_equal(el$to[3], "root/c/d%2Fe")
   # No ambiguity with nested path root/c
   expect_false("root/a/b" %in% el$to)
+})
+
+test_that("edgelist.list grows edge accumulator past initial buffer capacity", {
+  # The accumulator starts with 64 slots and doubles when exceeded; a flat
+  # list of 100 elements forces at least one growth and must still bind
+  # every edge in order.
+  n <- 100L
+  el <- edgelist(as.list(seq_len(n)))
+
+  expect_equal(nrow(el), n)
+  expect_true(all(el$from == "root"))
+  expect_equal(el$to[1], "root/[[1]]")
+  expect_equal(el$to[n], paste0("root/[[", n, "]]"))
+  expect_true(all(el$depth == 1L))
 })
