@@ -18,7 +18,6 @@ Description: Converts R objects into network edgelist and nodelist format for
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
 Depends:
     R (>= 3.6.0)
 Imports:
@@ -38,7 +37,8 @@ Suggests:
     knitr,
     rmarkdown
 Config/testthat/edition: 3
-URL: https://jesseabrandt.github.io/networkformat/,
-    https://github.com/jesseabrandt/networkformat
-BugReports: https://github.com/jesseabrandt/networkformat/issues
+URL: https://jessebrandtdata.github.io/networkformat/,
+    https://github.com/jessebrandtdata/networkformat
+BugReports: https://github.com/jessebrandtdata/networkformat/issues
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

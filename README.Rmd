@@ -16,19 +16,19 @@ knitr::opts_chunk$set(
 # networkformat
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/jesseabrandt/networkformat/actions/workflows/r.yml/badge.svg)](https://github.com/jesseabrandt/networkformat/actions/workflows/r.yml)
+[![R-CMD-check](https://github.com/jessebrandtdata/networkformat/actions/workflows/r.yml/badge.svg)](https://github.com/jessebrandtdata/networkformat/actions/workflows/r.yml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 **networkformat** converts R objects into network edgelist/nodelist format for visualization and analysis with packages like igraph, tidygraph, and ggraph. It works with tree-based ML models (`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, lists, and vectors.
 
-Full documentation at <https://jesseabrandt.github.io/networkformat/>.
+Full documentation at <https://jessebrandtdata.github.io/networkformat/>.
 
 ## Installation
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jesseabrandt/networkformat")
+devtools::install_github("jessebrandtdata/networkformat")
 ```
 
 ## Quick start

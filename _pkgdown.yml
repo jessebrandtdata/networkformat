@@ -1,4 +1,4 @@
-url: https://jesseabrandt.github.io/networkformat/
+url: https://jessebrandtdata.github.io/networkformat/
 
 template:
   bootstrap: 5
@@ -23,7 +23,7 @@ navbar:
       href: reference/index.html
     github:
       icon: fa-github
-      href: https://github.com/jesseabrandt/networkformat
+      href: https://github.com/jessebrandtdata/networkformat
       aria-label: GitHub
 
 reference:
