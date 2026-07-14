@@ -4,7 +4,7 @@ This article plots every model type supported by networkformat. Use it
 as a visual sanity check — every node label, edge direction, and colour
 mapping should look reasonable. For the raw output behind these plots,
 see the [complete method
-reference](https://jesseabrandt.github.io/networkformat/articles/complete-method-reference.md).
+reference](https://jessebrandtdata.github.io/networkformat/articles/complete-method-reference.md).
 
 ## Decision tree (tree)
 

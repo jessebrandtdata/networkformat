@@ -15,14 +15,14 @@ visualization with ggraph. For tree models, the quickest path is:
   ggraph)
 
 For vectors and data frames, use
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 and
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
 to build the edge/node data, then pass them to igraph or tidygraph. If
 you want to work with the raw edgelists and nodelists directly —
 filtering edges, computing graph statistics, or building custom igraph
 objects — see
-[`vignette("edgelist-nodelist")`](https://jesseabrandt.github.io/networkformat/articles/edgelist-nodelist.md).
+[`vignette("edgelist-nodelist")`](https://jessebrandtdata.github.io/networkformat/articles/edgelist-nodelist.md).
 
 ## Decision tree
 
@@ -235,4 +235,4 @@ ggraph(tg_courses, layout = "stress") +
 
 For the full data frame workflow — column selection, `na.rm`,
 `attr_cols`, `symmetric_cols`, and graph statistics — see
-[`vignette("edgelist-nodelist")`](https://jesseabrandt.github.io/networkformat/articles/edgelist-nodelist.md).
+[`vignette("edgelist-nodelist")`](https://jessebrandtdata.github.io/networkformat/articles/edgelist-nodelist.md).

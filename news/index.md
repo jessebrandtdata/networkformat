@@ -4,7 +4,7 @@
 
 ### Features
 
-- [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+- [`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
   generic with methods for:
   - Atomic vectors — sequential edges connecting element `i` to `i + 1`
   - `data.frame` — column-pair edges with tidyselect, `na.rm`,
@@ -14,7 +14,7 @@
   - `rpart` — parent-child splits with parsed split components
   - `xgb.Booster` — parent-child splits with feature/split/quality/cover
   - `gbm` — parent-child splits with `treenum` filtering
-- [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+- [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
   generic with methods for:
   - Atomic vectors — unique values with frequency counts
   - `data.frame` — reorder with `id_col` first
@@ -23,15 +23,15 @@
   - `rpart` — node attributes with labels
   - `xgb.Booster` — node attributes with labels
   - `gbm` — node attributes per tree
-- [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+- [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
   methods for one-step igraph construction from `tree`, `randomForest`,
   `rpart`, `xgb.Booster`, and `gbm` models — registered against igraph’s
-  [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
   generic via delayed S3 registration
-- [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+- [`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
   methods for one-step tbl_graph construction from the same model types
   — registered against tidygraph’s
-  [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
   generic via delayed S3 registration
 - `weights` parameter for `edgelist.data.frame` and vector method —
   collapses duplicate rows and adds a `weight` count column

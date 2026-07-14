@@ -12,16 +12,21 @@ as.igraph() and as_tbl_graph() methods for tree models.
 
 Vignettes:
 
-- [`vignette("networkformat")`](https://jesseabrandt.github.io/networkformat/articles/networkformat.md)
+- [`vignette("networkformat")`](https://jessebrandtdata.github.io/networkformat/articles/networkformat.md)
   — package overview
 
-- [`vignette("edgelist-nodelist")`](https://jesseabrandt.github.io/networkformat/articles/edgelist-nodelist.md)
+- [`vignette("edgelist-nodelist")`](https://jessebrandtdata.github.io/networkformat/articles/edgelist-nodelist.md)
   — edgelist and nodelist usage
 
-- [`vignette("visualization")`](https://jesseabrandt.github.io/networkformat/articles/visualization.md)
+- [`vignette("visualization")`](https://jessebrandtdata.github.io/networkformat/articles/visualization.md)
   — ggraph visualization examples
 
 ## Author
 
-**Maintainer**: Jesse Brandt <jesseabrandt@users.noreply.github.com>
+**Maintainer**: Jesse Brandt <jesse.a.brandt@gmail.com>
 ([ORCID](https://orcid.org/0009-0005-7462-075X))
+
+Authors:
+
+- Jesse Brandt <jesse.a.brandt@gmail.com>
+  ([ORCID](https://orcid.org/0009-0005-7462-075X))

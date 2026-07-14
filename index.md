@@ -3,17 +3,18 @@
 **networkformat** converts R objects into network edgelist/nodelist
 format for visualization and analysis with packages like igraph,
 tidygraph, and ggraph. It works with tree-based ML models
-(`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, and
-vectors.
+(`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, lists,
+and vectors.
 
-Full documentation at <https://jesseabrandt.github.io/networkformat/>.
+Full documentation at
+<https://jessebrandtdata.github.io/networkformat/>.
 
 ## Installation
 
 ``` r
 
 # install.packages("devtools")
-devtools::install_github("jesseabrandt/networkformat")
+devtools::install_github("jessebrandtdata/networkformat")
 ```
 
 ## Quick start
@@ -46,9 +47,10 @@ as.igraph(tr)
 
 ## Supported inputs
 
-| Input | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md) |
+| Input | [`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md) |
 |----|:--:|:--:|:--:|
 | **vector** (character, numeric, …) | sequential edges `i -> i+1` | unique values with frequency | — |
+| **list** | recursive parent-child edges | node metadata (type, depth, children) | — |
 | **data.frame** | column-pair edges | reorder with `id_col` first | — |
 | **randomForest** | parent-child splits | node attributes with labels | single or multi-tree graph |
 | **tree** | parent-child splits | node attributes with labels | full tree graph |
@@ -82,6 +84,24 @@ nodelist(c("A", "B", "A", "B", "C"))
 #> 1    A 2
 #> 2    B 2
 #> 3    C 1
+```
+
+## Lists
+
+Any list becomes a recursive parent-child edgelist. Nested lists create
+deeper edges with path-style IDs.
+
+``` r
+
+edgelist(list(a = list(b = 1, c = 2), d = 3))
+#>     from       to depth
+#> 1   root   root/a     1
+#> 2 root/a root/a/b     2
+#> 3 root/a root/a/c     2
+#> 4   root   root/d     1
+
+# S3 objects without a dedicated method are decomposed as plain lists
+edgelist(lm(y ~ x, data.frame(x = 1:3, y = 1:3)))
 ```
 
 ## Data frames
@@ -134,7 +154,7 @@ rf <- randomForest(Species ~ ., data = iris, ntree = 5)
 # Edgelist for all trees
 el <- edgelist(rf)
 head(el)
-#> Columns: from, to, split_var, split_point, prediction, treenum, split_var_name
+#> Columns: from, to, split_var, split_point, prediction, direction, treenum, split_var_name
 
 # Extract specific trees
 el_1 <- edgelist(rf, treenum = 1)
@@ -173,6 +193,8 @@ tbl_graph:
 ``` r
 
 library(tree)
+library(igraph)
+library(tidygraph)
 
 tr <- tree(Species ~ ., data = iris)
 

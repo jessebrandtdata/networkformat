@@ -3,7 +3,7 @@
 Extracts node-level attributes from a `tree` model object. Node IDs are
 the binary heap indices from `rownames(input_object$frame)` and match
 the `from`/`to` values produced by
-[`edgelist.tree`](https://jesseabrandt.github.io/networkformat/reference/edgelist.tree.md),
+[`edgelist.tree`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.tree.md),
 so the two outputs can be passed directly to
 [`igraph::graph_from_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.html).
 

@@ -5,16 +5,16 @@
 library(networkformat)
 ```
 
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 and
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
 are the core functions of **networkformat**. They extract network
 structure from vectors, data frames, lists, and tree models as plain
 data frames, giving you full control over filtering, transforming, and
 passing the results to igraph or any other tool.
 
 For quick visualization without touching the raw data, see
-[`vignette("visualization")`](https://jesseabrandt.github.io/networkformat/articles/visualization.md).
+[`vignette("visualization")`](https://jessebrandtdata.github.io/networkformat/articles/visualization.md).
 
 ## Decision tree
 
@@ -167,14 +167,14 @@ Or use `as.igraph(tr)` for the same result in one step.
 ### Visualizing the edgelist pipeline
 
 The full workflow —
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 -\>
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
 -\>
 [`graph_from_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.html)
 -\> ggraph — gives you control at every step. For a complete
 visualization example, see
-[`vignette("visualization")`](https://jesseabrandt.github.io/networkformat/articles/visualization.md).
+[`vignette("visualization")`](https://jessebrandtdata.github.io/networkformat/articles/visualization.md).
 
 ## Random forest
 
@@ -274,7 +274,7 @@ Columns:
 ### edgelist()
 
 When your data is already tabular,
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 reshapes it into from-to format. Columns are specified with
 [tidyselect](https://tidyselect.r-lib.org/reference/language.html)
 syntax — bare names, strings, numbers, or helpers like
@@ -449,7 +449,7 @@ Prerequisite edges get `directed = TRUE`; crosslist edges get
 ### nodelist()
 
 For data frames,
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
 simply reorders columns so the ID column comes first — convenient for
 [`igraph::graph_from_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.html):
 
@@ -491,7 +491,7 @@ since tidygraph already covers this case.
 ### Putting it together: course network
 
 For a complete course network visualization, see
-[`vignette("visualization")`](https://jesseabrandt.github.io/networkformat/articles/visualization.md).
+[`vignette("visualization")`](https://jessebrandtdata.github.io/networkformat/articles/visualization.md).
 
 Here we build the graph and compute statistics:
 

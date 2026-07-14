@@ -2,7 +2,7 @@
 
 Extracts node-level attributes from every tree in a `randomForest`
 model. Node IDs match the `from`/`to` indices produced by
-[`edgelist.randomForest`](https://jesseabrandt.github.io/networkformat/reference/edgelist.randomForest.md),
+[`edgelist.randomForest`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.randomForest.md),
 so the two outputs can be passed directly to
 [`igraph::graph_from_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.html)
 (after filtering to a single `treenum`).

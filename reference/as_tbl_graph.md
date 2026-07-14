@@ -3,7 +3,7 @@
 S3 methods for converting tree-based model objects into
 [`tbl_graph`](https://tidygraph.data-imaginist.com/reference/tbl_graph.html)
 objects. Each method wraps the corresponding
-[`as.igraph`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+[`as.igraph`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
 method. These methods are registered against the
 [`as_tbl_graph`](https://tidygraph.data-imaginist.com/reference/tbl_graph.html)
 generic from tidygraph via delayed S3 registration and are available

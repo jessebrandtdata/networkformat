@@ -3,7 +3,7 @@
 Extracts node-level attributes from an `rpart` model object. Node IDs
 are the binary heap indices from `rownames(input_object$frame)` and
 match the `from`/`to` values produced by
-[`edgelist.rpart`](https://jesseabrandt.github.io/networkformat/reference/edgelist.rpart.md),
+[`edgelist.rpart`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.rpart.md),
 so the two outputs can be passed directly to
 [`igraph::graph_from_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.html).
 

@@ -110,7 +110,7 @@ clustering, and much more. Also converts to **adjacency matrices**
 and **incidence matrices**
 ([`as_incidence_matrix()`](https://r.igraph.org/reference/as_incidence_matrix.html))
 for linear algebra approaches. networkformat provides
-[`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+[`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
 methods for tree-based models (`tree`, `rpart`, `randomForest`,
 `xgb.Booster`, `gbm`), so you can go from model to igraph in one step.
 
@@ -119,7 +119,7 @@ manipulate graphs with dplyr verbs (`mutate`, `filter`, `arrange`) while
 keeping the underlying igraph structure. If you’re comfortable with the
 tidyverse, this is the natural way to work with graphs. networkformat
 provides
-[`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+[`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
 methods for the same tree-based models, and tidygraph’s own
 `as_tbl_graph.data.frame()` auto-detects edge data frames with
 `from`/`to` columns — so once you have an edgelist from networkformat,
@@ -142,7 +142,7 @@ whatever your analysis requires.
 
 ### Currently available
 
-| Input | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) |
+| Input | [`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md) |
 |----|:--:|:--:|:--:|
 | atomic vector | yes | yes | no |
 | `list` | yes | yes | no |
@@ -154,15 +154,15 @@ whatever your analysis requires.
 | `gbm` | yes | yes | yes |
 
 For data frames, tidygraph’s
-[`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+[`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
 already handles the conversion from edge data frames to graph objects,
 so networkformat does not duplicate that method.
 
 ## Getting started
 
 For visualizing tree models quickly, see
-[`vignette("visualization")`](https://jesseabrandt.github.io/networkformat/articles/visualization.md).
+[`vignette("visualization")`](https://jessebrandtdata.github.io/networkformat/articles/visualization.md).
 
 For working directly with edgelists and nodelists — including all the
 available arguments and the data frame workflow — see
-[`vignette("edgelist-nodelist")`](https://jesseabrandt.github.io/networkformat/articles/edgelist-nodelist.md).
+[`vignette("edgelist-nodelist")`](https://jessebrandtdata.github.io/networkformat/articles/edgelist-nodelist.md).

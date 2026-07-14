@@ -3,17 +3,18 @@
 **networkformat** converts R objects into network edgelist/nodelist
 format for visualization and analysis with packages like igraph,
 tidygraph, and ggraph. It works with tree-based ML models
-(`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, and
-vectors.
+(`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, lists,
+and vectors.
 
-Full documentation at <https://jesseabrandt.github.io/networkformat/>.
+Full documentation at
+<https://jessebrandtdata.github.io/networkformat/>.
 
 ## Installation
 
 ``` r
 
 # install.packages("devtools")
-devtools::install_github("jesseabrandt/networkformat")
+devtools::install_github("jessebrandtdata/networkformat")
 ```
 
 ## Quick start
@@ -46,9 +47,10 @@ as.igraph(tr)
 
 ## Supported inputs
 
-| Input | [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md) |
+| Input | [`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md) | [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md) | [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md) / [`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md) |
 |----|:--:|:--:|:--:|
 | **vector** (character, numeric, …) | sequential edges `i -> i+1` | unique values with frequency | — |
+| **list** | recursive parent-child edges | node metadata (type, depth, children) | — |
 | **data.frame** | column-pair edges | reorder with `id_col` first | — |
 | **randomForest** | parent-child splits | node attributes with labels | single or multi-tree graph |
 | **tree** | parent-child splits | node attributes with labels | full tree graph |
@@ -82,6 +84,24 @@ nodelist(c("A", "B", "A", "B", "C"))
 #> 1    A 2
 #> 2    B 2
 #> 3    C 1
+```
+
+## Lists
+
+Any list becomes a recursive parent-child edgelist. Nested lists create
+deeper edges with path-style IDs.
+
+``` r
+
+edgelist(list(a = list(b = 1, c = 2), d = 3))
+#>     from       to depth
+#> 1   root   root/a     1
+#> 2 root/a root/a/b     2
+#> 3 root/a root/a/c     2
+#> 4   root   root/d     1
+
+# S3 objects without a dedicated method are decomposed as plain lists
+edgelist(lm(y ~ x, data.frame(x = 1:3, y = 1:3)))
 ```
 
 ## Data frames
@@ -134,7 +154,7 @@ rf <- randomForest(Species ~ ., data = iris, ntree = 5)
 # Edgelist for all trees
 el <- edgelist(rf)
 head(el)
-#> Columns: from, to, split_var, split_point, prediction, treenum, split_var_name
+#> Columns: from, to, split_var, split_point, prediction, direction, treenum, split_var_name
 
 # Extract specific trees
 el_1 <- edgelist(rf, treenum = 1)
@@ -173,6 +193,8 @@ tbl_graph:
 ``` r
 
 library(tree)
+library(igraph)
+library(tidygraph)
 
 tr <- tree(Species ~ ., data = iris)
 
@@ -247,24 +269,24 @@ MIT
 
 The main generic functions exported by networkformat.
 
-- [`networkformat`](https://jesseabrandt.github.io/networkformat/reference/networkformat-package.md)
-  [`networkformat-package`](https://jesseabrandt.github.io/networkformat/reference/networkformat-package.md)
+- [`networkformat`](https://jessebrandtdata.github.io/networkformat/reference/networkformat-package.md)
+  [`networkformat-package`](https://jessebrandtdata.github.io/networkformat/reference/networkformat-package.md)
   : networkformat: Convert R Objects to Network Edgelists and Nodelists
-- [`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+- [`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
   : Extract Edgelist from Various Object Types
-- [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+- [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
   : Extract Node List from Various Objects
-- [`as.igraph(`*`<tree>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
-  [`as.igraph(`*`<randomForest>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
-  [`as.igraph(`*`<rpart>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
-  [`as.igraph(`*`<xgb.Booster>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
-  [`as.igraph(`*`<gbm>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+- [`as.igraph(`*`<tree>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph(`*`<randomForest>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph(`*`<rpart>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph(`*`<xgb.Booster>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph(`*`<gbm>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
   : Convert to igraph
-- [`as_tbl_graph(`*`<tree>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
-  [`as_tbl_graph(`*`<randomForest>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
-  [`as_tbl_graph(`*`<rpart>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
-  [`as_tbl_graph(`*`<xgb.Booster>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
-  [`as_tbl_graph(`*`<gbm>`*`)`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+- [`as_tbl_graph(`*`<tree>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph(`*`<randomForest>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph(`*`<rpart>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph(`*`<xgb.Booster>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph(`*`<gbm>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
   : Convert to tbl_graph
 
 ## Vector and data frame methods
@@ -272,69 +294,69 @@ The main generic functions exported by networkformat.
 Methods for atomic vectors (sequential edges) and data frames
 (column-pair edges with tidyselect).
 
-- [`edgelist(`*`<default>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.default.md)
+- [`edgelist(`*`<default>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.default.md)
   : Extract Edgelist from a Vector or Unsupported Object
-- [`nodelist(`*`<default>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.default.md)
+- [`nodelist(`*`<default>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.default.md)
   : Extract Node List from a Vector or Unsupported Object
-- [`edgelist(`*`<data.frame>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.data.frame.md)
+- [`edgelist(`*`<data.frame>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.data.frame.md)
   : Extract Edgelist from Data Frame
-- [`nodelist(`*`<data.frame>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.data.frame.md)
+- [`nodelist(`*`<data.frame>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.data.frame.md)
   : Extract Node List from Data Frame
 
 ## List methods
 
 Methods for lists and S3 objects (recursive parent-child decomposition).
 
-- [`edgelist(`*`<list>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.list.md)
+- [`edgelist(`*`<list>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.list.md)
   : Extract Edgelist from a List
-- [`nodelist(`*`<list>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.list.md)
+- [`nodelist(`*`<list>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.list.md)
   : Extract Node List from a List
 
 ## Tree model methods
 
 Methods for tree-based machine learning models.
 
-- [`edgelist(`*`<tree>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.tree.md)
+- [`edgelist(`*`<tree>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.tree.md)
   : Extract Edgelist from Tree Model
-- [`nodelist(`*`<tree>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.tree.md)
+- [`nodelist(`*`<tree>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.tree.md)
   : Extract Node List from Tree Model
-- [`edgelist(`*`<rpart>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.rpart.md)
+- [`edgelist(`*`<rpart>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.rpart.md)
   : Extract Edgelist from rpart Model
-- [`nodelist(`*`<rpart>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.rpart.md)
+- [`nodelist(`*`<rpart>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.rpart.md)
   : Extract Node List from rpart Model
-- [`edgelist(`*`<randomForest>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.randomForest.md)
+- [`edgelist(`*`<randomForest>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.randomForest.md)
   : Extract Edgelist from RandomForest Model
-- [`nodelist(`*`<randomForest>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.randomForest.md)
+- [`nodelist(`*`<randomForest>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.randomForest.md)
   : Extract Node List from RandomForest Model
-- [`edgelist(`*`<xgb.Booster>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.xgb.Booster.md)
+- [`edgelist(`*`<xgb.Booster>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.xgb.Booster.md)
   : Extract Edgelist from XGBoost Model
-- [`nodelist(`*`<xgb.Booster>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.xgb.Booster.md)
+- [`nodelist(`*`<xgb.Booster>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.xgb.Booster.md)
   : Extract Node List from XGBoost Model
-- [`edgelist(`*`<gbm>`*`)`](https://jesseabrandt.github.io/networkformat/reference/edgelist.gbm.md)
+- [`edgelist(`*`<gbm>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.gbm.md)
   : Extract Edgelist from GBM Model
-- [`nodelist(`*`<gbm>`*`)`](https://jesseabrandt.github.io/networkformat/reference/nodelist.gbm.md)
+- [`nodelist(`*`<gbm>`*`)`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.gbm.md)
   : Extract Node List from GBM Model
 
 ## Data
 
 Example datasets included with the package.
 
-- [`courses`](https://jesseabrandt.github.io/networkformat/reference/courses.md)
+- [`courses`](https://jessebrandtdata.github.io/networkformat/reference/courses.md)
   : Course prerequisite and crosslisting network
 
 # Articles
 
 ### Vignettes
 
-- [networkformat](https://jesseabrandt.github.io/networkformat/articles/networkformat.md):
+- [networkformat](https://jessebrandtdata.github.io/networkformat/articles/networkformat.md):
 - [Working with edgelists and
-  nodelists](https://jesseabrandt.github.io/networkformat/articles/edgelist-nodelist.md):
+  nodelists](https://jessebrandtdata.github.io/networkformat/articles/edgelist-nodelist.md):
 - [Visualizing models as
-  networks](https://jesseabrandt.github.io/networkformat/articles/visualization.md):
+  networks](https://jessebrandtdata.github.io/networkformat/articles/visualization.md):
 
 ### Articles
 
 - [Complete method
-  reference](https://jesseabrandt.github.io/networkformat/articles/complete-method-reference.md):
+  reference](https://jessebrandtdata.github.io/networkformat/articles/complete-method-reference.md):
 - [Visual QA: every model type
-  plotted](https://jesseabrandt.github.io/networkformat/articles/visual-qa.md):
+  plotted](https://jessebrandtdata.github.io/networkformat/articles/visual-qa.md):

@@ -2,9 +2,9 @@
 
 A small dataset of university courses with prerequisite and crosslisting
 relationships, suitable for demonstrating
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 and
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md).
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md).
 
 ## Usage
 

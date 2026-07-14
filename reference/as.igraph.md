@@ -3,9 +3,9 @@
 S3 methods for converting tree-based model objects into
 [`igraph`](https://r.igraph.org/reference/aaa-igraph-package.html) graph
 objects. Each method calls
-[`edgelist`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md)
+[`edgelist`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md)
 and
-[`nodelist`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+[`nodelist`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
 internally and handles column reconciliation so you get a ready-to-use
 graph. These methods are registered against the
 [`as.igraph`](https://r.igraph.org/reference/as.igraph.html) generic

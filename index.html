@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Convert R Objects to Network Edgelists and Nodelists • networkformat</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Convert R Objects to Network Edgelists and Nodelists">
 <meta name="description" content="Converts R objects into network edgelist and nodelist format for visualization and analysis with packages like igraph, tidygraph, and ggraph. Works with data frames (column-pair edges with tidyselect), tree-based model objects (randomForest, tree, rpart, xgboost, gbm), lists (recursive parent-child edges), and atomic vectors (sequential edges). Also provides one-step graph construction via as.igraph() and as_tbl_graph() methods for tree models.">
@@ -45,7 +45,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jesseabrandt/networkformat" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jessebrandtdata/networkformat" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -58,20 +58,20 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><strong>networkformat</strong> converts R objects into network edgelist/nodelist format for visualization and analysis with packages like igraph, tidygraph, and ggraph. It works with tree-based ML models (<code>randomForest</code>, <code>tree</code>, <code>rpart</code>, <code>xgboost</code>, <code>gbm</code>), data frames, and vectors.</p>
-<p>Full documentation at <a href="https://jesseabrandt.github.io/networkformat/" class="uri">https://jesseabrandt.github.io/networkformat/</a>.</p>
+<p><strong>networkformat</strong> converts R objects into network edgelist/nodelist format for visualization and analysis with packages like igraph, tidygraph, and ggraph. It works with tree-based ML models (<code>randomForest</code>, <code>tree</code>, <code>rpart</code>, <code>xgboost</code>, <code>gbm</code>), data frames, lists, and vectors.</p>
+<p>Full documentation at <a href="https://jessebrandtdata.github.io/networkformat/" class="uri">https://jessebrandtdata.github.io/networkformat/</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jesseabrandt/networkformat"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jessebrandtdata/networkformat"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jesseabrandt.github.io/networkformat/">networkformat</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jessebrandtdata.github.io/networkformat/">networkformat</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Vectors --- sequential chain of edges</span></span>
 <span><span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span><span class="op">)</span></span>
@@ -99,10 +99,10 @@
 </h2>
 <table class="table">
 <colgroup>
-<col width="27%">
-<col width="22%">
-<col width="23%">
-<col width="26%">
+<col width="25%">
+<col width="21%">
+<col width="28%">
+<col width="24%">
 </colgroup>
 <thead><tr>
 <th>Input</th>
@@ -119,6 +119,12 @@
 <td align="center">sequential edges <code>i -&gt; i+1</code>
 </td>
 <td align="center">unique values with frequency</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td><strong>list</strong></td>
+<td align="center">recursive parent-child edges</td>
+<td align="center">node metadata (type, depth, children)</td>
 <td align="center">—</td>
 </tr>
 <tr>
@@ -187,10 +193,25 @@
 <span><span class="co">#&gt; 3    C 1</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="lists">Lists<a class="anchor" aria-label="anchor" href="#lists"></a>
+</h2>
+<p>Any list becomes a recursive parent-child edgelist. Nested lists create deeper edges with path-style IDs.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">1</span>, c <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     from       to depth</span></span>
+<span><span class="co">#&gt; 1   root   root/a     1</span></span>
+<span><span class="co">#&gt; 2 root/a root/a/b     2</span></span>
+<span><span class="co">#&gt; 3 root/a root/a/c     2</span></span>
+<span><span class="co">#&gt; 4   root   root/d     1</span></span>
+<span></span>
+<span><span class="co"># S3 objects without a dedicated method are decomposed as plain lists</span></span>
+<span><span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="data-frames">Data frames<a class="anchor" aria-label="anchor" href="#data-frames"></a>
 </h2>
 <p>Specify which columns are source/target nodes. All other columns are carried as edge attributes by default.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Basic edgelist from two columns</span></span>
 <span><span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="va">courses</span>, source_cols <span class="op">=</span> <span class="va">course</span>, target_cols <span class="op">=</span> <span class="va">prereq</span><span class="op">)</span></span>
 <span></span>
@@ -228,7 +249,7 @@
 <div class="section level3">
 <h3 id="randomforest">randomForest<a class="anchor" aria-label="anchor" href="#randomforest"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.berkeley.edu/~breiman/RandomForests/" class="external-link">randomForest</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html" class="external-link">randomForest</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, ntree <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
@@ -236,7 +257,7 @@
 <span><span class="co"># Edgelist for all trees</span></span>
 <span><span class="va">el</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="va">rf</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">el</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Columns: from, to, split_var, split_point, prediction, treenum, split_var_name</span></span>
+<span><span class="co">#&gt; Columns: from, to, split_var, split_point, prediction, direction, treenum, split_var_name</span></span>
 <span></span>
 <span><span class="co"># Extract specific trees</span></span>
 <span><span class="va">el_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/edgelist.html">edgelist</a></span><span class="op">(</span><span class="va">rf</span>, treenum <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -250,7 +271,7 @@
 <div class="section level3">
 <h3 id="tree">tree<a class="anchor" aria-label="anchor" href="#tree"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tree/man/tree.html" class="external-link">tree</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">+</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
@@ -270,8 +291,10 @@
 <h2 id="graph-conversion">Graph conversion<a class="anchor" aria-label="anchor" href="#graph-conversion"></a>
 </h2>
 <p>Skip the edgelist/nodelist step and go straight to an igraph or tbl_graph:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tree/man/tree.html" class="external-link">tree</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
@@ -289,7 +312,7 @@
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
@@ -349,8 +372,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/jesseabrandt/networkformat/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/jesseabrandt/networkformat/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/jessebrandtdata/networkformat/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/jessebrandtdata/networkformat/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -365,7 +388,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/jesseabrandt/networkformat/actions/workflows/r.yml" class="external-link"><img src="https://github.com/jesseabrandt/networkformat/actions/workflows/r.yml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/jessebrandtdata/networkformat/actions/workflows/r.yml" class="external-link"><img src="https://github.com/jessebrandtdata/networkformat/actions/workflows/r.yml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
@@ -379,7 +402,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

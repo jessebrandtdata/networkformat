@@ -3,7 +3,7 @@
 Extracts node-level attributes from an xgboost model via
 `xgb.model.dt.tree()`. Node IDs are globally unique strings in
 `"Tree-Node"` format and match the `from`/`to` columns produced by
-[`edgelist.xgb.Booster`](https://jesseabrandt.github.io/networkformat/reference/edgelist.xgb.Booster.md).
+[`edgelist.xgb.Booster`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.xgb.Booster.md).
 
 ## Usage
 

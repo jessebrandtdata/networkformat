@@ -102,7 +102,7 @@ corresponding edgelist, so they can be passed directly to
 
 - **vector**: `weights = TRUE` collapses duplicate `(from, to)` pairs
   with a count.
-  [`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md)
+  [`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md)
   always returns unique values with frequency in the `n` column.
 - **data.frame**: `weights = TRUE` collapses fully identical rows (all
   columns must match, not just from/to) and adds a `weight` column. This
@@ -188,9 +188,9 @@ Internal helpers shared across nodelist methods live in
 - Framework: testthat 3rd edition
 - Test files: `test-edgelist.R` (~220 tests), `test-nodelist.R` (~171
   tests), `test-as.igraph.R` (tests
-  [`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md)
+  [`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md)
   and
-  [`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+  [`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
   methods)
 - Tests for randomForest/tree use `skip_if_not_installed()`
 - The overlap warning in `test-edgelist.R` is expected (tests that

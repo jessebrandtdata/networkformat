@@ -1,13 +1,13 @@
 # Complete method reference
 
 This article demonstrates every
-[`edgelist()`](https://jesseabrandt.github.io/networkformat/reference/edgelist.md),
-[`nodelist()`](https://jesseabrandt.github.io/networkformat/reference/nodelist.md),
-[`as.igraph()`](https://jesseabrandt.github.io/networkformat/reference/as.igraph.md),
+[`edgelist()`](https://jessebrandtdata.github.io/networkformat/reference/edgelist.md),
+[`nodelist()`](https://jessebrandtdata.github.io/networkformat/reference/nodelist.md),
+[`as.igraph()`](https://jessebrandtdata.github.io/networkformat/reference/as.igraph.md),
 and
-[`as_tbl_graph()`](https://jesseabrandt.github.io/networkformat/reference/as_tbl_graph.md)
+[`as_tbl_graph()`](https://jessebrandtdata.github.io/networkformat/reference/as_tbl_graph.md)
 method in the package. For a gentler introduction, see
-[`vignette("networkformat")`](https://jesseabrandt.github.io/networkformat/articles/networkformat.md).
+[`vignette("networkformat")`](https://jessebrandtdata.github.io/networkformat/articles/networkformat.md).
 
 ## Atomic vectors
 
@@ -395,12 +395,12 @@ library(igraph)
 #>     union
 g <- as.igraph(tr)
 g
-#> IGRAPH 69d6dc8 DN-- 11 10 -- 
+#> IGRAPH 235ec58 DN-- 11 10 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), dev_improvement (v/n), prob_setosa (v/n),
 #> | prob_versicolor (v/n), prob_virginica (v/n), label (v/c), label
 #> | (e/c), split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from 69d6dc8 (vertex names):
+#> + edges from 235ec58 (vertex names):
 #>  [1] 1 ->2  1 ->3  3 ->6  6 ->12 12->24 12->25 6 ->13 3 ->7  7 ->14 7 ->15
 ```
 
@@ -669,12 +669,12 @@ Single tree:
 
 g <- as.igraph(rf, treenum = 1)
 g
-#> IGRAPH f93df60 DN-- 21 20 -- 
+#> IGRAPH e642c99 DN-- 21 20 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), treenum (v/n), label
 #> | (v/c), split_var (e/n), split_point (e/n), prediction (e/n),
 #> | direction (e/c), treenum (e/n), split_var_name (e/c)
-#> + edges from f93df60 (vertex names):
+#> + edges from e642c99 (vertex names):
 #>  [1] 1 ->2  2 ->4  3 ->6  5 ->8  6 ->10 7 ->12 9 ->14 12->16 16->18 18->20
 #> [11] 1 ->3  2 ->5  3 ->7  5 ->9  6 ->11 7 ->13 9 ->15 12->17 16->19 18->21
 ```
@@ -774,14 +774,14 @@ nodelist(rp)
 
 g <- as.igraph(rp)
 g
-#> IGRAPH 7081471 DN-- 5 4 -- 
+#> IGRAPH b7623f5 DN-- 5 4 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), wt (v/n), complexity (v/n), ncompete (v/n),
 #> | nsurrogate (v/n), dev_improvement (v/n), n_setosa (v/n), n_versicolor
 #> | (v/n), n_virginica (v/n), prob_setosa (v/n), prob_versicolor (v/n),
 #> | prob_virginica (v/n), nodeprob (v/n), label (v/c), label (e/c),
 #> | split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from 7081471 (vertex names):
+#> + edges from b7623f5 (vertex names):
 #> [1] 1->2 1->3 3->6 3->7
 ```
 
@@ -822,7 +822,7 @@ as_tbl_graph(rp)
 ``` r
 
 library(gbm)
-#> Loaded gbm 2.2.3
+#> Loaded gbm 2.3.1
 #> This version of gbm is no longer under development. Consider transitioning to gbm3, https://github.com/gbm-developers/gbm3
 set.seed(12)
 gb <- gbm(as.numeric(Species == "setosa") ~ ., data = iris,
@@ -900,13 +900,13 @@ nodelist(gb, treenum = 1)
 
 g <- as.igraph(gb, treenum = 1)
 g
-#> IGRAPH d12246f DN-- 7 6 -- 
+#> IGRAPH b1ad3fa DN-- 7 6 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), error_reduction (v/n),
 #> | weight (v/n), treenum (v/n), label (v/c), split_var (e/n),
 #> | split_point (e/n), prediction (e/n), treenum (e/n), split_var_name
 #> | (e/c)
-#> + edges from d12246f (vertex names):
+#> + edges from b1ad3fa (vertex names):
 #> [1] 0->1 1->2 5->6 0->5 1->3 5->7
 ```
 
@@ -1050,11 +1050,11 @@ nodelist(xg, treenum = 1)
 
 g <- as.igraph(xg, treenum = 1)
 g
-#> IGRAPH dea9b5b DN-- 3 2 -- 
+#> IGRAPH be10e78 DN-- 3 2 -- 
 #> + attr: name (v/c), is_leaf (v/l), feature (v/c), split (v/n), quality
 #> | (v/n), cover (v/n), missing (v/c), treenum (v/n), label (v/c),
 #> | feature (e/c), split (e/n), quality (e/n), cover (e/n), treenum (e/n)
-#> + edges from dea9b5b (vertex names):
+#> + edges from be10e78 (vertex names):
 #> [1] 0-0->0-1 0-0->0-2
 ```
 
