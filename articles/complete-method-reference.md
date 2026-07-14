@@ -395,12 +395,12 @@ library(igraph)
 #>     union
 g <- as.igraph(tr)
 g
-#> IGRAPH e4d1d3c DN-- 11 10 -- 
+#> IGRAPH 11c41b7 DN-- 11 10 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), dev_improvement (v/n), prob_setosa (v/n),
 #> | prob_versicolor (v/n), prob_virginica (v/n), label (v/c), label
 #> | (e/c), split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from e4d1d3c (vertex names):
+#> + edges from 11c41b7 (vertex names):
 #>  [1] 1 ->2  1 ->3  3 ->6  6 ->12 12->24 12->25 6 ->13 3 ->7  7 ->14 7 ->15
 ```
 
@@ -669,12 +669,12 @@ Single tree:
 
 g <- as.igraph(rf, treenum = 1)
 g
-#> IGRAPH 48a2b9a DN-- 21 20 -- 
+#> IGRAPH 770eddb DN-- 21 20 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), treenum (v/n), label
 #> | (v/c), split_var (e/n), split_point (e/n), prediction (e/n),
 #> | direction (e/c), treenum (e/n), split_var_name (e/c)
-#> + edges from 48a2b9a (vertex names):
+#> + edges from 770eddb (vertex names):
 #>  [1] 1 ->2  2 ->4  3 ->6  5 ->8  6 ->10 7 ->12 9 ->14 12->16 16->18 18->20
 #> [11] 1 ->3  2 ->5  3 ->7  5 ->9  6 ->11 7 ->13 9 ->15 12->17 16->19 18->21
 ```
@@ -774,14 +774,14 @@ nodelist(rp)
 
 g <- as.igraph(rp)
 g
-#> IGRAPH 0a8d4fa DN-- 5 4 -- 
+#> IGRAPH 6a39908 DN-- 5 4 -- 
 #> + attr: name (v/c), var (v/c), n (v/n), dev (v/n), yval (v/c), is_leaf
 #> | (v/l), depth (v/n), wt (v/n), complexity (v/n), ncompete (v/n),
 #> | nsurrogate (v/n), dev_improvement (v/n), n_setosa (v/n), n_versicolor
 #> | (v/n), n_virginica (v/n), prob_setosa (v/n), prob_versicolor (v/n),
 #> | prob_virginica (v/n), nodeprob (v/n), label (v/c), label (e/c),
 #> | split_var (e/c), split_op (e/c), split_point (e/n)
-#> + edges from 0a8d4fa (vertex names):
+#> + edges from 6a39908 (vertex names):
 #> [1] 1->2 1->3 3->6 3->7
 ```
 
@@ -900,13 +900,13 @@ nodelist(gb, treenum = 1)
 
 g <- as.igraph(gb, treenum = 1)
 g
-#> IGRAPH e6698e3 DN-- 7 6 -- 
+#> IGRAPH 5d9bca1 DN-- 7 6 -- 
 #> + attr: name (v/c), is_leaf (v/l), split_var (v/n), split_var_name
 #> | (v/c), split_point (v/n), prediction (v/n), error_reduction (v/n),
 #> | weight (v/n), treenum (v/n), label (v/c), split_var (e/n),
 #> | split_point (e/n), prediction (e/n), treenum (e/n), split_var_name
 #> | (e/c)
-#> + edges from e6698e3 (vertex names):
+#> + edges from 5d9bca1 (vertex names):
 #> [1] 0->1 1->2 5->6 0->5 1->3 5->7
 ```
 
@@ -1050,11 +1050,11 @@ nodelist(xg, treenum = 1)
 
 g <- as.igraph(xg, treenum = 1)
 g
-#> IGRAPH 214eab4 DN-- 3 2 -- 
+#> IGRAPH d22f59b DN-- 3 2 -- 
 #> + attr: name (v/c), is_leaf (v/l), feature (v/c), split (v/n), quality
 #> | (v/n), cover (v/n), missing (v/c), treenum (v/n), label (v/c),
 #> | feature (e/c), split (e/n), quality (e/n), cover (e/n), treenum (e/n)
-#> + edges from 214eab4 (vertex names):
+#> + edges from d22f59b (vertex names):
 #> [1] 0-0->0-1 0-0->0-2
 ```
 
