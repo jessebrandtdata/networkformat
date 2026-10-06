@@ -19,27 +19,29 @@ the version number, and a NEWS entry.
 
 ## Test environments
 
-* local: Ubuntu 24.04.4 LTS (Linux 6.8), R 4.3.3 --- re-run on 0.1.2
-* win-builder: Windows, R 4.6.1 (R-release) --- run on 0.1.1
-* win-builder: Windows, R Under development (unstable) (2026-08-27 r90452)
-  --- run on 0.1.1
+All three were run against 0.1.2:
 
-The two win-builder runs were made for the 0.1.1 submission and have not been
-repeated, because 0.1.2 changes only the `DESCRIPTION` Description field, the
-version and `NEWS.md`. The local check was re-run against 0.1.2.
+* local: Ubuntu 24.04.4 LTS (Linux 6.8), R 4.3.3
+* win-builder: Windows Server 2022, R 4.6.1 (2026-06-24 ucrt) (R-release)
+* win-builder: Windows Server 2022, R Under development (unstable)
+  (2026-10-05 r90641 ucrt)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
-
 Both win-builder runs returned the same single NOTE, from "checking CRAN
-incoming feasibility": the expected "New submission", plus possibly misspelled
-words in DESCRIPTION --- "Edgelists", "Nodelists", "edgelist", "nodelist" and
-"tidyselect". All five are correct. The first four are the standard
-network-analysis terms for the two data structures this package produces, and
-'tidyselect' is the name of a package listed under Imports.
+incoming feasibility":
+
+* "New submission" --- expected.
+* Possibly misspelled words in DESCRIPTION: "Edgelists" (3:37) and
+  "Nodelists" (3:51). Both are in the Title and both are correct: they are the
+  standard network-analysis terms for the two data structures this package
+  produces.
+
+On 0.1.1 that word list also included "edgelist", "nodelist" and "tidyselect";
+all three are gone now that the Description has been reworded and 'tidyselect'
+is quoted.
 
 The local check additionally reports two items that are artifacts of the check
 environment rather than of the package:
@@ -48,6 +50,8 @@ environment rather than of the package:
   not installed on the local machine.
 * NOTE: unable to verify current time --- the local machine has no access to
   the network time service the check consults.
+
+Both win-builder runs built the PDF and HTML manuals successfully.
 
 All suggested packages (including 'xgboost' and 'gbm') are installed locally,
 so the model-specific methods and their tests are exercised rather than
