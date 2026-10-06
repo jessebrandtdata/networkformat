@@ -1,5 +1,14 @@
 # Changelog
 
+## networkformat 0.1.2
+
+### CRAN resubmission
+
+- Reworded the `DESCRIPTION` Description field so it no longer opens by
+  restating the package title, and put ‘tidyselect’ in single quotes
+  alongside the other software names, per CRAN review feedback on 0.1.1.
+- No user-facing changes to code, documentation or behaviour.
+
 ## networkformat 0.1.1
 
 ### Features
