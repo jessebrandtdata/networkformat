@@ -189,6 +189,9 @@ all_edges <- edgelist(courses,
                       source_cols = c(prereq, prereq2, crosslist),
                       target_cols = course)
 all_edges$directed <- all_edges$from_col != "crosslist"
+# A crosslist is recorded on both courses' rows, so each one arrives as two
+# edges (A -> B and B -> A). Keep one edge per crosslist pair, the one whose
+# names sort from < to, and keep every directed edge.
 all_edges <- all_edges[all_edges$directed | all_edges$from < all_edges$to, ]
 
 nodes <- nodelist(courses, id_col = course)
