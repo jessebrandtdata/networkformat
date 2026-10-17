@@ -25,6 +25,7 @@ Imports:
     rlang,
     tidyselect
 Suggests:
+    callr,
     randomForest,
     tree,
     xgboost,
