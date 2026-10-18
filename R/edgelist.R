@@ -3,7 +3,7 @@
 #' Generic function to extract a network edgelist from various object types.
 #' Methods exist for atomic vectors (sequential edges), data frames
 #' (column-pair edges), lists (recursive parent-child edges), and tree-based
-#' model objects (\code{randomForest}, \code{tree}, \code{rpart},
+#' model objects (\code{randomForest}, \code{ranger}, \code{tree}, \code{rpart},
 #' \code{xgb.Booster}, \code{gbm}).
 #' The specific columns returned depend on the input type.
 #'

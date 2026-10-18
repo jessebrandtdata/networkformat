@@ -4,6 +4,7 @@
 \alias{as_tbl_graph}
 \alias{as_tbl_graph.tree}
 \alias{as_tbl_graph.randomForest}
+\alias{as_tbl_graph.ranger}
 \alias{as_tbl_graph.rpart}
 \alias{as_tbl_graph.xgb.Booster}
 \alias{as_tbl_graph.gbm}
@@ -13,6 +14,8 @@
 
 \method{as_tbl_graph}{randomForest}(x, treenum = NULL, ...)
 
+\method{as_tbl_graph}{ranger}(x, treenum = NULL, ...)
+
 \method{as_tbl_graph}{rpart}(x, ...)
 
 \method{as_tbl_graph}{xgb.Booster}(x, treenum = NULL, ...)
@@ -21,8 +24,8 @@
 }
 \arguments{
 \item{x}{An object to convert (currently \code{tree},
-\code{randomForest}, \code{rpart}, \code{xgb.Booster}, or
-\code{gbm}).}
+\code{randomForest}, \code{ranger}, \code{rpart}, \code{xgb.Booster},
+or \code{gbm}).}
 
 \item{...}{Additional arguments passed to \code{\link[igraph:as.igraph]{as.igraph}}.}
 

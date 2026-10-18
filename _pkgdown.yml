@@ -64,6 +64,8 @@ reference:
   - nodelist.rpart
   - edgelist.randomForest
   - nodelist.randomForest
+  - edgelist.ranger
+  - nodelist.ranger
   - edgelist.xgb.Booster
   - nodelist.xgb.Booster
   - edgelist.gbm

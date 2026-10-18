@@ -20,7 +20,7 @@ A data.frame where the first column is the node ID and subsequent
 Generic function to extract a node list (with attributes) from various
 object types including atomic vectors (unique values with frequencies),
 data frames, lists (recursive node decomposition), and tree models
-(\code{randomForest}, \code{tree}, \code{rpart}, \code{xgb.Booster},
+(\code{randomForest}, \code{ranger}, \code{tree}, \code{rpart}, \code{xgb.Booster},
 \code{gbm}).  The node list provides
 metadata about each node in the network.
 }

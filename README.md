@@ -13,8 +13,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 **networkformat** converts R objects into network edgelist/nodelist
 format for visualization and analysis with packages like igraph,
 tidygraph, and ggraph. It works with tree-based ML models
-(`randomForest`, `tree`, `rpart`, `xgboost`, `gbm`), data frames, lists,
-and vectors.
+(`randomForest`, `ranger`, `tree`, `rpart`, `xgboost`, `gbm`), data
+frames, lists, and vectors.
 
 Full documentation at
 <https://jessebrandtdata.github.io/networkformat/>.
@@ -61,6 +61,7 @@ as.igraph(tr)
 | **list**                           | recursive parent-child edges | node metadata (type, depth, children) |                —                 |
 | **data.frame**                     |      column-pair edges       |      reorder with `id_col` first      |                —                 |
 | **randomForest**                   |     parent-child splits      |      node attributes with labels      |    single or multi-tree graph    |
+| **ranger**                         |     parent-child splits      |      node attributes with labels      |    single or multi-tree graph    |
 | **tree**                           |     parent-child splits      |      node attributes with labels      |         full tree graph          |
 | **rpart**                          |     parent-child splits      |      node attributes with labels      |         full tree graph          |
 | **xgb.Booster** (xgboost)          |     parent-child splits      |      node attributes with labels      |    single or multi-tree graph    |
@@ -245,6 +246,8 @@ To add support for a new model class:
 
 - [randomForest](https://cran.r-project.org/package=randomForest) —
   random forest models
+- [ranger](https://cran.r-project.org/package=ranger) — fast random
+  forests
 - [tree](https://cran.r-project.org/package=tree) — classification and
   regression trees
 - [rpart](https://cran.r-project.org/package=rpart) — recursive

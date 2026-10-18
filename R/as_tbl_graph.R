@@ -9,8 +9,8 @@
 #' whenever \pkg{tidygraph} is loaded.
 #'
 #' @param x An object to convert (currently \code{tree},
-#'   \code{randomForest}, \code{rpart}, \code{xgb.Booster}, or
-#'   \code{gbm}).
+#'   \code{randomForest}, \code{ranger}, \code{rpart}, \code{xgb.Booster},
+#'   or \code{gbm}).
 #' @param ... Additional arguments passed to \code{\link[igraph:as.igraph]{as.igraph}}.
 #'
 #' @returns A \code{\link[tidygraph]{tbl_graph}} object.
@@ -39,6 +39,12 @@ as_tbl_graph.tree <- function(x, ...) {
 #'   to extract one tree.
 #' @exportS3Method tidygraph::as_tbl_graph
 as_tbl_graph.randomForest <- function(x, treenum = NULL, ...) {
+  tidygraph::as_tbl_graph(igraph::as.igraph(x, treenum = treenum, ...))
+}
+
+#' @rdname as_tbl_graph
+#' @exportS3Method tidygraph::as_tbl_graph
+as_tbl_graph.ranger <- function(x, treenum = NULL, ...) {
   tidygraph::as_tbl_graph(igraph::as.igraph(x, treenum = treenum, ...))
 }
 

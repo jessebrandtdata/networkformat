@@ -4,6 +4,7 @@
 \alias{as.igraph}
 \alias{as.igraph.tree}
 \alias{as.igraph.randomForest}
+\alias{as.igraph.ranger}
 \alias{as.igraph.rpart}
 \alias{as.igraph.xgb.Booster}
 \alias{as.igraph.gbm}
@@ -13,6 +14,8 @@
 
 \method{as.igraph}{randomForest}(x, treenum = NULL, ...)
 
+\method{as.igraph}{ranger}(x, treenum = NULL, ...)
+
 \method{as.igraph}{rpart}(x, ...)
 
 \method{as.igraph}{xgb.Booster}(x, treenum = NULL, ...)
@@ -21,7 +24,7 @@
 }
 \arguments{
 \item{x}{An object to convert (\code{tree}, \code{randomForest},
-\code{rpart}, \code{xgb.Booster}, or \code{gbm}).}
+\code{ranger}, \code{rpart}, \code{xgb.Booster}, or \code{gbm}).}
 
 \item{...}{Additional arguments passed to methods.}
 
@@ -32,9 +35,9 @@ to extract one tree.}
 }
 \value{
 An \code{\link[igraph]{igraph}} object.  For
-  \code{randomForest} with multiple trees, the graph contains
-  disconnected components (one per tree) and a \code{treenum}
-  vertex/edge attribute.
+  \code{randomForest} and \code{ranger} with multiple trees, the graph
+  contains disconnected components (one per tree), vertices named
+  \code{"<treenum>.<node>"}, and a \code{treenum} vertex/edge attribute.
 }
 \description{
 S3 methods for converting tree-based model objects into
