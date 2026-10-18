@@ -141,7 +141,7 @@ edgelist(courses, source_cols = course, target_cols = prereq,
 Key parameters:
 
 - `na.rm = TRUE` (default) --- remove edges where from or to is `NA`
-- `symmetric_cols` --- mark target columns as undirected; adds a `directed` column
+- `symmetric_cols` --- mark source or target columns as undirected; adds a `directed` column
 - `dedupe = TRUE` (default) --- when using `symmetric_cols`, keep only one direction (`from <= to`)
 - `weights = TRUE` --- collapse identical rows and add a `weight` count column
 

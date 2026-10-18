@@ -38,12 +38,12 @@ syntax as \code{source_cols}.}
 result.  Set to \code{FALSE} to keep all rows including those
 with \code{NA} endpoints.}
 
-\item{symmetric_cols}{Target column names that represent undirected
-(symmetric) relationships.  When non-\code{NULL}, a \code{directed}
-column is added: \code{FALSE} for edges from target columns named
-in \code{symmetric_cols}, \code{TRUE} otherwise.  Accepts the same
-tidyselect syntax as \code{target_cols}; names must be a subset of
-\code{target_cols}.}
+\item{symmetric_cols}{Column names that represent undirected
+(symmetric) relationships.  Each name must appear in
+\code{source_cols} or \code{target_cols}.  When non-\code{NULL}, a
+\code{directed} column is added: \code{FALSE} for edges whose source
+or target column is named in \code{symmetric_cols}, \code{TRUE}
+otherwise.  Accepts the same tidyselect syntax as \code{target_cols}.}
 
 \item{dedupe}{Logical; if \code{TRUE} (the default) and
 \code{symmetric_cols} is non-\code{NULL}, duplicate undirected edges
@@ -68,8 +68,8 @@ A data.frame with columns:
   \item{from_col}{Name of the original column each source value came from}
   \item{to_col}{Name of the original column each target value came from}
   \item{directed}{(only when \code{symmetric_cols} is provided) Logical:
-    \code{FALSE} for edges from symmetric target columns, \code{TRUE}
-    otherwise}
+    \code{FALSE} for edges from symmetric source or target columns,
+    \code{TRUE} otherwise}
   \item{weight}{(only when \code{weights = TRUE}) Integer count of how
     many times each unique \code{(from, to)} pair occurred}
   \item{...}{Additional attribute columns selected by \code{attr_cols}}
@@ -102,5 +102,11 @@ edgelist(courses, source_cols = course, target_cols = c(prereq, crosslist),
 # Mark symmetric (undirected) target columns
 edgelist(courses, source_cols = course,
          target_cols = c(prereq, crosslist),
+         symmetric_cols = crosslist)
+
+# Symmetric columns may sit on the source side: prerequisite arrows point
+# prereq -> course, and each crosslisted pair appears once
+edgelist(courses, source_cols = c(prereq, crosslist),
+         target_cols = course,
          symmetric_cols = crosslist)
 }

@@ -1,4 +1,22 @@
-# networkformat 0.1.0
+# networkformat (development version)
+
+## Features
+
+* `edgelist.data.frame()` accepts `symmetric_cols` named in either
+  `source_cols` or `target_cols`. An edge is undirected when its source or
+  target column is symmetric, and `dedupe` keeps one copy of each such pair.
+  The error for an unknown column names both sets (#19).
+
+# networkformat 0.1.2
+
+## CRAN resubmission
+
+* Reworded the `DESCRIPTION` Description field so it no longer opens by
+  restating the package title, and put 'tidyselect' in single quotes alongside
+  the other software names, per CRAN review feedback on 0.1.1.
+* No user-facing changes to code, documentation or behaviour.
+
+# networkformat 0.1.1
 
 ## Features
 

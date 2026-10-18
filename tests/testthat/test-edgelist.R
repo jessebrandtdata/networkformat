@@ -335,13 +335,55 @@ test_that("edgelist.data.frame no directed column when symmetric_cols omitted", 
   expect_false("directed" %in% names(el))
 })
 
-test_that("edgelist.data.frame symmetric_cols errors for non-target columns", {
+test_that("edgelist.data.frame symmetric_cols errors for columns outside source and target", {
   expect_error(
     edgelist(courses, source_cols = course,
              target_cols = prereq,
              symmetric_cols = crosslist),
-    "symmetric_cols not found in target_cols"
+    "symmetric_cols not found in source_cols or target_cols: crosslist"
   )
+})
+
+test_that("edgelist.data.frame symmetric_cols accepts source columns", {
+  el <- edgelist(courses, source_cols = c(prereq, crosslist),
+                 target_cols = course,
+                 symmetric_cols = crosslist, attr_cols = c(),
+                 dedupe = FALSE)
+
+  expect_true("directed" %in% names(el))
+  expect_true(all(el$directed[el$from_col == "prereq"]))
+  expect_false(any(el$directed[el$from_col == "crosslist"]))
+})
+
+test_that("edgelist.data.frame dedupe keeps one copy of source-side symmetric pairs", {
+  el <- edgelist(courses, source_cols = c(prereq, prereq2, crosslist),
+                 target_cols = course,
+                 symmetric_cols = crosslist, attr_cols = c())
+
+  undirected <- el[!el$directed, ]
+  expect_true(all(as.character(undirected$from) <= as.character(undirected$to)))
+  pair_key <- paste(pmin(undirected$from, undirected$to),
+                    pmax(undirected$from, undirected$to))
+  expect_false(any(duplicated(pair_key)))
+  # courses records each of its 4 crosslist pairs on both rows
+  expect_equal(nrow(undirected), 4L)
+  # every prerequisite edge is kept
+  expect_equal(sum(el$directed),
+               sum(!is.na(courses$prereq)) + sum(!is.na(courses$prereq2)))
+})
+
+test_that("edgelist.data.frame source-side symmetric_cols matches the hand-rolled dedupe", {
+  manual <- edgelist(courses, source_cols = c(prereq, prereq2, crosslist),
+                     target_cols = course, attr_cols = c())
+  manual$directed <- manual$from_col != "crosslist"
+  manual <- manual[manual$directed | manual$from < manual$to, ]
+  rownames(manual) <- NULL
+
+  el <- edgelist(courses, source_cols = c(prereq, prereq2, crosslist),
+                 target_cols = course,
+                 symmetric_cols = crosslist, attr_cols = c())
+
+  expect_equal(el, manual)
 })
 
 test_that("edgelist.data.frame symmetric_cols works with na.rm", {
