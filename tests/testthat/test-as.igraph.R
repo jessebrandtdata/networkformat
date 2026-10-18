@@ -460,3 +460,47 @@ test_that("as.igraph.gbm combined ecount matches sum of per-tree edgelists", {
                             integer(1)))
   expect_equal(igraph::ecount(g), total_edges)
 })
+
+# --- ranger tests ---
+
+test_that("as.igraph.ranger treenum=1 returns one tree", {
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("igraph")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 3, max.depth = 3)
+  g <- igraph::as.igraph(rg, treenum = 1)
+  ti <- ranger::treeInfo(rg, 1)
+
+  expect_true(igraph::is_igraph(g))
+  expect_true(igraph::is_directed(g))
+  expect_equal(igraph::vcount(g), nrow(ti))
+  expect_equal(igraph::components(g)$no, 1)
+  expect_true("treenum" %in% igraph::vertex_attr_names(g))
+})
+
+test_that("as.igraph.ranger treenum=NULL names vertices treenum.node", {
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("igraph")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 3, max.depth = 3)
+  g <- igraph::as.igraph(rg)
+
+  expect_equal(igraph::components(g)$no, 3)
+  expect_true(all(c("1.0", "2.0", "3.0") %in% igraph::V(g)$name))
+  expect_equal(sort(unique(igraph::V(g)$treenum)), c(1, 2, 3))
+})
+
+test_that("as_tbl_graph.ranger returns a tbl_graph", {
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("igraph")
+  skip_if_not_installed("tidygraph")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 2, max.depth = 3)
+  tg <- tidygraph::as_tbl_graph(rg, treenum = c(1, 2))
+
+  expect_s3_class(tg, "tbl_graph")
+  expect_equal(igraph::components(tg)$no, 2)
+})

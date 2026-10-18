@@ -1280,3 +1280,79 @@ test_that("nodelist.list grows node accumulator past initial buffer capacity", {
   expect_true(all(nl$depth[-1] == 1L))
   expect_equal(nl$name[n + 1L], paste0("root/[[", n, "]]"))
 })
+
+# --- ranger tests ---
+
+test_that("nodelist.ranger returns the randomForest node columns", {
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("randomForest")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 2, max.depth = 3)
+  rf <- randomForest::randomForest(Species ~ ., data = iris, ntree = 2)
+  nl <- nodelist(rg)
+
+  expect_identical(names(nl), names(nodelist(rf)))
+  expect_equal(sort(unique(nl$treenum)), 1:2)
+})
+
+test_that("nodelist.ranger node ids match edgelist.ranger from/to", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 1, max.depth = 3)
+  nl <- nodelist(rg)
+  el <- edgelist(rg)
+  ti <- ranger::treeInfo(rg, 1)
+
+  expect_equal(nl$name, ti$nodeID)
+  expect_true(all(c(el$from, el$to) %in% nl$name))
+  expect_equal(nl$is_leaf, ti$terminal)
+  expect_true(all(is.na(nl$split_var_name[nl$is_leaf])))
+  expect_true(all(is.na(nl$prediction[!nl$is_leaf])))
+})
+
+test_that("nodelist.ranger labels leaves with the prediction and splits with the rule", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 1, max.depth = 2)
+  nl <- nodelist(rg)
+
+  expect_type(nl$prediction, "character")
+  expect_equal(nl$label[nl$is_leaf], nl$prediction[nl$is_leaf])
+  internal <- nl[!nl$is_leaf, ]
+  expect_equal(internal$label,
+               paste0(internal$split_var_name, "\n<= ",
+                      round(internal$split_point, 2)))
+})
+
+test_that("nodelist.ranger regression leaves are numeric", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Sepal.Length ~ ., data = iris, num.trees = 1,
+                       max.depth = 2)
+  nl <- nodelist(rg)
+
+  expect_type(nl$prediction, "double")
+  expect_false(anyNA(nl$prediction[nl$is_leaf]))
+})
+
+test_that("nodelist.ranger probability forests predict the most probable class", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 1, max.depth = 2,
+                       probability = TRUE)
+  nl <- nodelist(rg)
+  ti <- ranger::treeInfo(rg, 1)
+  prob <- as.matrix(ti[, paste0("pred.", levels(iris$Species))])
+
+  leaf <- nl$is_leaf
+  expect_equal(nl$prediction[leaf],
+               levels(iris$Species)[max.col(prob[leaf, , drop = FALSE],
+                                            ties.method = "first")])
+  expect_true(all(paste0("prob_", levels(iris$Species)) %in% names(nl)))
+  expect_equal(nl$prob_setosa, ti$pred.setosa)
+})
