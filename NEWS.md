@@ -1,3 +1,12 @@
+# networkformat (development version)
+
+## Features
+
+* `edgelist.data.frame()` accepts `symmetric_cols` named in either
+  `source_cols` or `target_cols`. An edge is undirected when its source or
+  target column is symmetric, and `dedupe` keeps one copy of each such pair.
+  The error for an unknown column names both sets (#19).
+
 # networkformat 0.1.2
 
 ## CRAN resubmission

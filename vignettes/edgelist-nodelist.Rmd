@@ -212,7 +212,7 @@ edgelist(courses, source_cols = course, target_cols = prereq,
 
 ### `symmetric_cols` --- marking undirected relationships
 
-Some target columns represent symmetric relationships (crosslists,
+Some columns represent symmetric relationships (crosslists,
 co-authorships). Use `symmetric_cols` to add a `directed` column and
 automatically deduplicate symmetric edges:
 
@@ -226,6 +226,17 @@ edgelist(courses, source_cols = course,
 Prerequisite edges get `directed = TRUE`; crosslist edges get
 `directed = FALSE`. Symmetric edges are automatically deduped (only
 `from <= to` kept). Set `dedupe = FALSE` to preserve both directions.
+
+A symmetric column can sit on either side. Putting the prerequisite
+columns on the source side makes arrows point from prerequisite to
+course, and `crosslist` goes with them:
+
+```{r df-sym-source}
+edgelist(courses, source_cols = c(prereq, prereq2, crosslist),
+         target_cols = course,
+         attr_cols = c(),
+         symmetric_cols = crosslist)
+```
 
 ## nodelist()
 

@@ -252,9 +252,8 @@ ggraph(tg_xg_all, layout = "tree") +
 data(courses)
 all_edges <- edgelist(courses,
                       source_cols = c(prereq, prereq2, crosslist),
-                      target_cols = course)
-all_edges$directed <- all_edges$from_col != "crosslist"
-all_edges <- all_edges[all_edges$directed | all_edges$from < all_edges$to, ]
+                      target_cols = course,
+                      symmetric_cols = crosslist)
 
 nodes <- nodelist(courses, id_col = course)
 g <- graph_from_data_frame(all_edges, vertices = nodes)

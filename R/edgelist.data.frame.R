@@ -20,12 +20,12 @@
 #'   \code{from} or \code{to} is \code{NA} are removed from the
 #'   result.  Set to \code{FALSE} to keep all rows including those
 #'   with \code{NA} endpoints.
-#' @param symmetric_cols Target column names that represent undirected
-#'   (symmetric) relationships.  When non-\code{NULL}, a \code{directed}
-#'   column is added: \code{FALSE} for edges from target columns named
-#'   in \code{symmetric_cols}, \code{TRUE} otherwise.  Accepts the same
-#'   tidyselect syntax as \code{target_cols}; names must be a subset of
-#'   \code{target_cols}.
+#' @param symmetric_cols Column names that represent undirected
+#'   (symmetric) relationships.  Each name must appear in
+#'   \code{source_cols} or \code{target_cols}.  When non-\code{NULL}, a
+#'   \code{directed} column is added: \code{FALSE} for edges whose source
+#'   or target column is named in \code{symmetric_cols}, \code{TRUE}
+#'   otherwise.  Accepts the same tidyselect syntax as \code{target_cols}.
 #' @param dedupe Logical; if \code{TRUE} (the default) and
 #'   \code{symmetric_cols} is non-\code{NULL}, duplicate undirected edges
 #'   are removed by keeping only rows where \code{from <= to}
@@ -46,8 +46,8 @@
 #'   \item{from_col}{Name of the original column each source value came from}
 #'   \item{to_col}{Name of the original column each target value came from}
 #'   \item{directed}{(only when \code{symmetric_cols} is provided) Logical:
-#'     \code{FALSE} for edges from symmetric target columns, \code{TRUE}
-#'     otherwise}
+#'     \code{FALSE} for edges from symmetric source or target columns,
+#'     \code{TRUE} otherwise}
 #'   \item{weight}{(only when \code{weights = TRUE}) Integer count of how
 #'     many times each unique \code{(from, to)} pair occurred}
 #'   \item{...}{Additional attribute columns selected by \code{attr_cols}}
@@ -76,6 +76,12 @@
 #' # Mark symmetric (undirected) target columns
 #' edgelist(courses, source_cols = course,
 #'          target_cols = c(prereq, crosslist),
+#'          symmetric_cols = crosslist)
+#'
+#' # Symmetric columns may sit on the source side: prerequisite arrows point
+#' # prereq -> course, and each crosslisted pair appears once
+#' edgelist(courses, source_cols = c(prereq, crosslist),
+#'          target_cols = course,
 #'          symmetric_cols = crosslist)
 edgelist.data.frame <- function(input_object, source_cols = 1, target_cols = 2,
                                  attr_cols = NULL, na.rm = TRUE,
@@ -111,10 +117,9 @@ edgelist.data.frame <- function(input_object, source_cols = 1, target_cols = 2,
   if (has_symmetric) {
     sym_pos <- tidyselect::eval_select(sym_quo, input_object)
     sym_names <- names(sym_pos)
-    target_names_set <- names(target_pos)
-    bad <- setdiff(sym_names, target_names_set)
+    bad <- setdiff(sym_names, c(names(source_pos), names(target_pos)))
     if (length(bad) > 0) {
-      stop("symmetric_cols not found in target_cols: ",
+      stop("symmetric_cols not found in source_cols or target_cols: ",
            paste(bad, collapse = ", "))
     }
   }
@@ -139,7 +144,8 @@ edgelist.data.frame <- function(input_object, source_cols = 1, target_cols = 2,
       )
       # Add directed column when symmetric_cols is provided
       if (has_symmetric) {
-        block$directed <- !(target_names[ti] %in% sym_names)
+        block$directed <- !(source_names[si] %in% sym_names ||
+                              target_names[ti] %in% sym_names)
       }
       # Append attribute columns
       for (a in attr_pos) {
