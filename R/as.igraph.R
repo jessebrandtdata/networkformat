@@ -10,13 +10,13 @@
 #' whenever \pkg{igraph} is loaded.
 #'
 #' @param x An object to convert (\code{tree}, \code{randomForest},
-#'   \code{rpart}, \code{xgb.Booster}, or \code{gbm}).
+#'   \code{ranger}, \code{rpart}, \code{xgb.Booster}, or \code{gbm}).
 #' @param ... Additional arguments passed to methods.
 #'
 #' @returns An \code{\link[igraph]{igraph}} object.  For
-#'   \code{randomForest} with multiple trees, the graph contains
-#'   disconnected components (one per tree) and a \code{treenum}
-#'   vertex/edge attribute.
+#'   \code{randomForest} and \code{ranger} with multiple trees, the graph
+#'   contains disconnected components (one per tree), vertices named
+#'   \code{"<treenum>.<node>"}, and a \code{treenum} vertex/edge attribute.
 #'
 #' @examples
 #' if (requireNamespace("rpart", quietly = TRUE) &&
@@ -44,26 +44,13 @@ as.igraph.tree <- function(x, ...) {
 #'   to extract one tree.
 #' @exportS3Method igraph::as.igraph
 as.igraph.randomForest <- function(x, treenum = NULL, ...) {
-  tree_indices <- .validate_treenum(treenum, x$ntree)
+  .forest_igraph(x, .validate_treenum(treenum, x$ntree))
+}
 
-  # Single tree: simple case, no prefixing needed
-  if (length(tree_indices) == 1L) {
-    e <- edgelist(x, treenum = tree_indices)
-    n <- nodelist(x, treenum = tree_indices)
-    return(igraph::graph_from_data_frame(e, directed = TRUE, vertices = n))
-  }
-
-  # Multiple trees: combine into single graph with disconnected components
-  all_edges <- edgelist(x, treenum = tree_indices)
-  all_nodes <- nodelist(x, treenum = tree_indices)
-
-  # Make node IDs unique across trees by prefixing with treenum
-  all_edges$from <- paste0(all_edges$treenum, ".", all_edges$from)
-  all_edges$to   <- paste0(all_edges$treenum, ".", all_edges$to)
-
-  all_nodes$name <- paste0(all_nodes$treenum, ".", all_nodes$name)
-
-  igraph::graph_from_data_frame(all_edges, directed = TRUE, vertices = all_nodes)
+#' @rdname as.igraph
+#' @exportS3Method igraph::as.igraph
+as.igraph.ranger <- function(x, treenum = NULL, ...) {
+  .forest_igraph(x, .validate_treenum(treenum, x$num.trees))
 }
 
 #' @rdname as.igraph

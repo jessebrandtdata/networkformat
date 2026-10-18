@@ -1172,3 +1172,117 @@ test_that("edgelist.list grows edge accumulator past initial buffer capacity", {
   expect_equal(el$to[n], paste0("root/[[", n, "]]"))
   expect_true(all(el$depth == 1L))
 })
+
+# --- ranger tests ---
+
+test_that("edgelist.ranger returns the randomForest edge columns", {
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("randomForest")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 3, max.depth = 3)
+  rf <- randomForest::randomForest(Species ~ ., data = iris, ntree = 3,
+                                   maxnodes = 5)
+  el <- edgelist(rg)
+
+  expect_s3_class(el, "data.frame")
+  expect_identical(names(el)[seq_along(edgelist(rf))], names(edgelist(rf)))
+  expect_true("label" %in% names(el))
+  expect_equal(sort(unique(el$treenum)), 1:3)
+})
+
+test_that("edgelist.ranger edges match ranger::treeInfo", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 2, max.depth = 3)
+  ti <- ranger::treeInfo(rg, tree = 2)
+  el <- edgelist(rg, treenum = 2)
+  internal <- ti[!ti$terminal, ]
+
+  expect_equal(nrow(el), 2L * nrow(internal))
+  expect_setequal(paste(el$from, el$to),
+                  c(paste(internal$nodeID, internal$leftChild),
+                    paste(internal$nodeID, internal$rightChild)))
+  left <- el[el$direction == "left", ]
+  expect_equal(left$to, internal$leftChild[match(left$from, internal$nodeID)])
+  expect_equal(el$split_var_name,
+               internal$splitvarName[match(el$from, internal$nodeID)])
+  expect_equal(el$split_point,
+               internal$splitval[match(el$from, internal$nodeID)])
+  expect_equal(rg$forest$independent.variable.names[el$split_var],
+               el$split_var_name)
+  expect_true(all(el$treenum == 2L))
+})
+
+test_that("edgelist.ranger prediction keeps the class label or numeric value", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  cls <- ranger::ranger(Species ~ ., data = iris, num.trees = 1, max.depth = 2)
+  el_cls <- edgelist(cls)
+  leaf_pred <- el_cls$prediction[!is.na(el_cls$prediction)]
+  expect_type(el_cls$prediction, "character")
+  expect_true(all(leaf_pred %in% levels(iris$Species)))
+
+  reg <- ranger::ranger(Sepal.Length ~ ., data = iris, num.trees = 1,
+                        max.depth = 2)
+  el_reg <- edgelist(reg)
+  ti <- ranger::treeInfo(reg, 1)
+  expect_type(el_reg$prediction, "double")
+  expect_equal(el_reg$prediction, ti$prediction[match(el_reg$to, ti$nodeID)])
+})
+
+test_that("edgelist.ranger labels numeric splits with <= and >", {
+  skip_if_not_installed("ranger")
+
+  set.seed(12)
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 1, max.depth = 2)
+  el <- edgelist(rg)
+  root <- el[el$from == 0, ]
+
+  expect_equal(root$label[root$direction == "left"],
+               paste(root$split_var_name[1], "<=", root$split_point[1]))
+  expect_equal(root$label[root$direction == "right"],
+               paste(root$split_var_name[1], ">", root$split_point[1]))
+})
+
+test_that("edgelist.ranger carries partition splits verbatim in label", {
+  skip_if_not_installed("ranger")
+
+  set.seed(3)
+  df <- data.frame(f = factor(sample(letters[1:5], 200, TRUE)),
+                   x = stats::rnorm(200))
+  df$y <- stats::rnorm(200) + 3 * (df$f %in% c("a", "c"))
+  rg <- ranger::ranger(y ~ ., data = df, num.trees = 1, max.depth = 2,
+                       respect.unordered.factors = "partition")
+  ti <- ranger::treeInfo(rg, 1)
+  el <- edgelist(rg)
+  fac <- el[el$split_var_name == "f", ]
+  skip_if(nrow(fac) == 0L, "no factor split in this tree")
+
+  expect_type(el$split_point, "double")
+  expect_true(all(is.na(fac$split_point)))
+  levels_right <- ti$splitval[match(fac$from, ti$nodeID)]
+  expect_equal(fac$label[fac$direction == "right"],
+               paste("f in", levels_right[fac$direction == "right"]))
+  expect_equal(fac$label[fac$direction == "left"],
+               paste("f not in", levels_right[fac$direction == "left"]))
+  num <- el[el$split_var_name == "x", ]
+  expect_false(anyNA(num$split_point))
+})
+
+test_that("edgelist.ranger validates treenum", {
+  skip_if_not_installed("ranger")
+
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 2)
+  expect_error(edgelist(rg, treenum = 3), "treenum must be between 1 and 2")
+})
+
+test_that("edgelist.ranger errors when the forest was not saved", {
+  skip_if_not_installed("ranger")
+
+  rg <- ranger::ranger(Species ~ ., data = iris, num.trees = 2,
+                       write.forest = FALSE)
+  expect_error(edgelist(rg), "write.forest")
+})

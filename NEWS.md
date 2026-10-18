@@ -1,3 +1,16 @@
+# networkformat (development version)
+
+## Features
+
+* `ranger` forests are supported: `edgelist()`, `nodelist()`, `as.igraph()`
+  and `as_tbl_graph()` methods with the same `treenum` argument, output
+  columns and `"<treenum>.<node>"` vertex naming as the `randomForest`
+  methods. Node IDs are ranger's 0-based `nodeID`. Predictions keep ranger's
+  value (class label or number); probability forests predict the most
+  probable class and add `prob_<class>` node columns. The edgelist adds a
+  `label` column with the split rule, which carries unordered-factor
+  partition splits verbatim (#18).
+
 # networkformat 0.1.2
 
 ## CRAN resubmission

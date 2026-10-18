@@ -43,6 +43,7 @@ The package uses **S3 method dispatch** with four groups of functions:
 | `edgelist.list` | list | `name_root`, `max_depth` | from, to, depth | Complete |
 | `edgelist.data.frame` | data.frame | `source_cols`, `target_cols`, `attr_cols`, `na.rm`, `symmetric_cols`, `dedupe`, `weights` | from, to, from_col, to_col, [directed], [weight], \<attrs\> | Complete |
 | `edgelist.randomForest` | randomForest | `treenum` | from, to, split_var, split_point, prediction, direction, treenum, split_var_name | Complete |
+| `edgelist.ranger` | ranger | `treenum` | from, to, split_var, split_point, prediction, direction, treenum, split_var_name, label | Complete |
 | `edgelist.tree` | tree | | from, to, label, split_var, split_op, split_point | Complete |
 | `edgelist.rpart` | rpart | | from, to, label, split_var, split_op, split_point | Complete |
 | `edgelist.xgb.Booster` | xgb.Booster | `treenum` | from, to, feature, split, quality, cover, treenum | Complete |
@@ -56,6 +57,7 @@ The package uses **S3 method dispatch** with four groups of functions:
 | `nodelist.list` | list | `name_root`, `max_depth` | name, depth, type, n_children, label | Complete |
 | `nodelist.data.frame` | data.frame | `id_col` | (reordered input, id_col first) | Complete |
 | `nodelist.randomForest` | randomForest | `treenum` | name, is_leaf, split_var, split_var_name, split_point, prediction, treenum, label | Complete |
+| `nodelist.ranger` | ranger | `treenum` | name, is_leaf, split_var, split_var_name, split_point, prediction, treenum, label, [prob_\*] | Complete |
 | `nodelist.tree` | tree | | name, var, n, dev, yval, is_leaf, depth, dev_improvement, [prob_\*], label | Complete |
 | `nodelist.rpart` | rpart | | name, var, n, dev, yval, is_leaf, depth, wt, complexity, ncompete, nsurrogate, dev_improvement, [n_\*], [prob_\*], [nodeprob], label | Complete |
 | `nodelist.xgb.Booster` | xgb.Booster | `treenum` | name, is_leaf, feature, split, quality, cover, missing, treenum, label | Complete |
@@ -67,11 +69,13 @@ The package uses **S3 method dispatch** with four groups of functions:
 |--------|-------|---------------|---------|
 | `as.igraph.tree` | tree | | igraph |
 | `as.igraph.randomForest` | randomForest | `treenum` (default `NULL` = all) | igraph (multiple trees = disconnected components) |
+| `as.igraph.ranger` | ranger | `treenum` (default `NULL` = all) | igraph (multiple trees = disconnected components) |
 | `as.igraph.rpart` | rpart | | igraph |
 | `as.igraph.xgb.Booster` | xgb.Booster | `treenum` (default `NULL` = all) | igraph (string IDs, globally unique) |
 | `as.igraph.gbm` | gbm | `treenum` (default `NULL` = all) | igraph (multi-tree: prefixed IDs) |
 | `as_tbl_graph.tree` | tree | | tbl_graph |
 | `as_tbl_graph.randomForest` | randomForest | `treenum` (default `NULL` = all) | tbl_graph |
+| `as_tbl_graph.ranger` | ranger | `treenum` (default `NULL` = all) | tbl_graph |
 | `as_tbl_graph.rpart` | rpart | | tbl_graph |
 | `as_tbl_graph.xgb.Booster` | xgb.Booster | `treenum` (default `NULL` = all) | tbl_graph |
 | `as_tbl_graph.gbm` | gbm | `treenum` (default `NULL` = all) | tbl_graph |
@@ -85,7 +89,7 @@ Node IDs in nodelist outputs match the from/to columns in the corresponding edge
 - **vector**: `weights = TRUE` collapses duplicate `(from, to)` pairs with a count. `nodelist()` always returns unique values with frequency in the `n` column.
 - **data.frame**: `weights = TRUE` collapses fully identical rows (all columns must match, not just from/to) and adds a `weight` column. This is separate from `symmetric_cols` + `dedupe`, which normalizes edge direction.
 - **list**: Edges are structurally unique (one edge per parent-child pair); duplicates cannot occur.
-- **randomForest / tree / rpart / xgboost / gbm**: Edges are structurally unique (tree topology); duplicates cannot occur.
+- **randomForest / ranger / tree / rpart / xgboost / gbm**: Edges are structurally unique (tree topology); duplicates cannot occur.
 
 ### File organization
 
@@ -95,6 +99,7 @@ Each S3 method lives in its own file: `R/edgelist.R` (generic), `R/edgelist.data
 
 - **vector (default)**: Sequential edges: element `i` connects to element `i + 1`, producing `n - 1` edges from a length-`n` vector.
 - **list**: Recursive traversal of nested list structure. Each element produces a parent-child edge. Path-style IDs (`root/a/b`) ensure uniqueness. Named elements use their names; unnamed elements use positional indices (`[[1]]`). `max_depth` limits recursion. S3 objects without a dedicated method fall through from `edgelist.default` via `is.list()` check and are unclassed before traversal.
+- **ranger**: Iterates trees via `ranger::treeInfo()` (shared per-tree helper `.ranger_tree()` in `R/utils-ranger.R`). Node IDs are ranger's 0-based `nodeID`. Unordered-factor partition splits have `split_point = NA` and the level list in the edge `label`. Multi-tree graphs for randomForest and ranger are built by `.forest_igraph()`.
 - **randomForest**: Iterates trees via `randomForest::getTree()`, identifies parent nodes (`left_daughter != 0`), creates edges to both children. `treenum` filters to specific trees.
 - **tree**: Binary heap node IDs from `rownames(frame)` (root=1, left=2k, right=2k+1). Parent-child edges derived via `id %/% 2`. Split labels and parsed components (`split_var`, `split_op`, `split_point`) from the `splits` matrix.
 - **data.frame**: Cartesian product of source/target column pairs. Builds edge blocks with `na.rm` filtering, optional `directed` column from `symmetric_cols`, direction-based dedup, and row-level dedup via `weights`.
@@ -105,7 +110,7 @@ Each S3 method lives in its own file: `R/edgelist.R` (generic), `R/edgelist.data
 ### Dependencies
 
 - **Imports**: `rlang`, `tidyselect` (used by `edgelist.data.frame` and `nodelist.data.frame` for column selection)
-- **Suggests**: `randomForest`, `tree`, `xgboost`, `gbm`, `rpart`, `testthat`, `covr`, `igraph`, `tidygraph`, `ggraph`, `knitr`, `rmarkdown`
+- **Suggests**: `randomForest`, `ranger`, `tree`, `xgboost`, `gbm`, `rpart`, `testthat`, `covr`, `igraph`, `tidygraph`, `ggraph`, `knitr`, `rmarkdown`
 
 ### Data
 
